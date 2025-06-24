@@ -17,5 +17,8 @@
     "email": "contact@ywwa.cc"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.12.1"
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.5"
+  }
 }
