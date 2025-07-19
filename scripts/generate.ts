@@ -78,26 +78,28 @@ async function generate(): Promise<void> {
       try {
         const fullUrl = new URL(`${baseUrl.replace(/\/?$/, "")}/${ENDPOINT}`);
         const ast = await openapiTS(fullUrl);
-        const generatedCode = `${astToString(ast).trim}\n`;
+        const generatedCode = `${astToString(ast).trim()}\n`;
 
         let previous = "";
 
         const isNew = !existsSync(filePath);
 
         if (!isNew) {
-          previous = `${readFileSync(filePath, "utf-8")}\n`;
+          previous = readFileSync(filePath, "utf-8");
         }
+
+        const shouldSkip = dryRun || ci;
 
         if (isNew) {
           stats.created += 1;
           log(
-            chalk.green(`CREATED ${fileName} ${dryRun || (ci && "[Skipped]")}`),
+            chalk.green(`CREATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`),
           );
         } else if (previous !== generatedCode) {
           stats.updated += 1;
           log(
             chalk.yellow(
-              `UPDATED ${fileName} ${dryRun || (ci && "[Skipped]")}`,
+              `UPDATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`,
             ),
           );
         } else {
