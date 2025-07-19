@@ -1,0 +1,4 @@
+{
+  "storefront": "storefront-api/openapi.json",
+  "management": "management-api/openapi.json"
+}
