@@ -34,16 +34,8 @@ const program = new Command()
     "path to JSON spec config",
     path.resolve(process.cwd(), "scripts/config.json"),
   )
-  .option(
-    "-o, --outDir <path>",
-    "output directory",
-    path.resolve(process.cwd(), "src/generated"),
-  )
-  .option(
-    "-b, --baseUrl <url>",
-    "base URL for swagger endpoints",
-    "https://api.paynow.gg/swagger",
-  )
+  .option("-o, --outDir <path>", "output directory", path.resolve(process.cwd(), "src/generated"))
+  .option("-b, --baseUrl <url>", "base URL for swagger endpoints", "https://api.paynow.gg/swagger")
   .option("-d, --dry-run", "run without writing files")
   .option("--ci", "CI mode: exit with non-zero code on created/updated/errors")
   .parse(process.argv);
@@ -51,13 +43,7 @@ const program = new Command()
 const opts = program.opts<CLIOptions>();
 
 async function generate(): Promise<void> {
-  const {
-    config: configPath,
-    outDir,
-    baseUrl,
-    dryRun = false,
-    ci = false,
-  } = opts;
+  const { config: configPath, outDir, baseUrl, dryRun = false, ci = false } = opts;
   const rawConfig = readFileSync(configPath, "utf-8");
   const specs: Record<string, string> = JSON.parse(rawConfig);
   const stats: Stats = {
@@ -92,16 +78,10 @@ async function generate(): Promise<void> {
 
         if (isNew) {
           stats.created += 1;
-          log(
-            chalk.green(`CREATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`),
-          );
+          log(chalk.green(`CREATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`));
         } else if (previous !== generatedCode) {
           stats.updated += 1;
-          log(
-            chalk.yellow(
-              `UPDATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`,
-            ),
-          );
+          log(chalk.yellow(`UPDATED ${fileName} ${shouldSkip ? "[Skipped]" : ""}`));
         } else {
           stats.unchanged += 1;
           log(chalk.gray(`UNCHANGED ${fileName}`));
