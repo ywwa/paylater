@@ -13,7 +13,7 @@ export class CartAPI {
   private client: APIClient<TStorefront.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
-    this.client = new APIClient<TStorefront.paths>({ ...config });
+    this.client = new APIClient({ ...config });
   }
 
   setToken(scheme: AuthScheme, token: string): void {
@@ -48,6 +48,11 @@ export class CartAPI {
 
   /**
    * Adds a product to the cart or updates the quantity of an existing product.
+   *
+   * If the `increment` parameter is set to "true" or "1", the specified quantity will be added to any existing quantity for the product.
+   * Otherwise, the quantity will be set to the specified value, replacing any existing quantity.
+   *
+   * @param options - Options for adding a product to the cart, including the `increment` parameter to control quantity behavior.
    */
   async addLine(options: AddLineOptions) {
     return this.client.put("/v1/store/cart/lines", options);
