@@ -934,6 +934,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all tags for a store */
+        get: operations["Tags_GetTags"];
+        put?: never;
+        /** Create a new tag */
+        post: operations["Tags_CreateTag"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/tags/{tagId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a tag by an ID */
+        get: operations["Tags_GetTag"];
+        put?: never;
+        post?: never;
+        /** Delete a tag by ID */
+        delete: operations["Tags_DeleteTag"];
+        options?: never;
+        head?: never;
+        /** Update a tag by ID */
+        patch: operations["Tags_UpdateTag"];
+        trace?: never;
+    };
     "/v1/stores/{storeId}/tags/{tagId}/image-upload-url": {
         parameters: {
             query?: never;
@@ -942,8 +979,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get tag image upload URL
-         * @description Retrieves an image upload URL for a tag.
+         * Get upload URL for tag image
+         * @description Gets a pre-signed upload URL for uploading an image to a tag
          */
         get: operations["Tags_GetTagImageUploadUrl"];
         put?: never;
@@ -964,8 +1001,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Finish tag image upload URL
-         * @description Finishes an image upload for a tag.
+         * Finish tag image upload
+         * @description Finishes an image upload for a tag
          */
         post: operations["Tags_FinishTagImageUpload"];
         delete?: never;
@@ -985,8 +1022,8 @@ export interface paths {
         put?: never;
         post?: never;
         /**
-         * Delete tag image URL
-         * @description Deletes an image for a tag.
+         * Delete tag image
+         * @description Deletes an image for a tag
          */
         delete: operations["Tags_DeleteTagImage"];
         options?: never;
@@ -2872,6 +2909,32 @@ export interface components {
          * @enum {string}
          */
         SubscriptionStatus: "created" | "active" | "canceled";
+        TagDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /**
+             * Format: date-time
+             * @description When the tag was created
+             */
+            created_at: string;
+            created_by: components["schemas"]["ActorDto"];
+            /** @description The unique name for the tag. */
+            name: string;
+            /** @description The unique slug for the tag. */
+            slug: string;
+            /** @description The description of the tag. */
+            description?: string | null;
+            /** @description The Image URL associated with the tag. */
+            image_url?: string | null;
+            /** @description Indicates whether this tag is enabled. */
+            enabled: boolean;
+            /**
+             * Format: date-time
+             * @description When the tag was last updated.
+             */
+            updated_at?: string | null;
+            updated_by?: components["schemas"]["ActorDto"];
+        };
         TrustStoreOnboardingDto: {
             store_id: components["schemas"]["FlakeId"];
             user_id: components["schemas"]["FlakeId"];
@@ -3044,6 +3107,12 @@ export interface components {
             required_product_all?: boolean | null;
             /** @description The IDs of associated custom variables. */
             custom_variable_ids?: components["schemas"]["FlakeId"][] | null;
+        };
+        UpsertTagRequestDto: {
+            name?: string | null;
+            slug?: string | null;
+            description?: string | null;
+            enabled?: boolean | null;
         };
         /** @description A validation error. */
         ValidationError: {
@@ -5938,6 +6007,180 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Tags_GetTags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Tags_CreateTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpsertTagRequestDto"];
+                "text/json": components["schemas"]["UpsertTagRequestDto"];
+                "application/*+json": components["schemas"]["UpsertTagRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Tags_GetTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                tagId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Tags_DeleteTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                tagId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Tags_UpdateTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                tagId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertTagRequestDto"];
+                "text/json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertTagRequestDto"];
+                "application/*+json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertTagRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TagDto"];
+                };
             };
             /** @description Error response */
             default: {
