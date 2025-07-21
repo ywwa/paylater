@@ -1,13 +1,13 @@
-import type { Storefront as TStorefront } from "../../generated";
+import type { Storefront } from "../../generated";
 import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
 type GetNavlinksOptions = OptionsType<
-  TStorefront.operations["StorefrontNavLinks_GetStorefrontNavLinks"]
+  Storefront.operations["StorefrontNavLinks_GetStorefrontNavLinks"]
 >;
 
 export class NavlinksAPI {
-  private client: APIClient<TStorefront.paths>;
+  private client: APIClient<Storefront.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
     this.client = new APIClient({ ...config });

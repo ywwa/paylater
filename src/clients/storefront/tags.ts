@@ -1,11 +1,11 @@
-import type { Storefront as TStorefront } from "../../generated";
+import type { Storefront } from "../../generated";
 import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
-type GetTagsOptions = OptionsType<TStorefront.operations["StorefrontTags_GetStorefrontTags"]>;
+type GetTagsOptions = OptionsType<Storefront.operations["StorefrontTags_GetStorefrontTags"]>;
 
 export class TagsAPI {
-  private client: APIClient<TStorefront.paths>;
+  private client: APIClient<Storefront.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
     this.client = new APIClient({ ...config });

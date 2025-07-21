@@ -1,16 +1,16 @@
-import type { Storefront as TStorefront } from "../../generated";
+import type { Storefront } from "../../generated";
 import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
-type GetCartOptions = OptionsType<TStorefront.operations["StorefrontCart_GetCart"]>;
-type ClearCartOptions = OptionsType<TStorefront.operations["StorefrontCart_ClearCart"]>;
-type AddLineOptions = OptionsType<TStorefront.operations["StorefrontCart_AddLine"]>;
+type GetCartOptions = OptionsType<Storefront.operations["StorefrontCart_GetCart"]>;
+type ClearCartOptions = OptionsType<Storefront.operations["StorefrontCart_ClearCart"]>;
+type AddLineOptions = OptionsType<Storefront.operations["StorefrontCart_AddLine"]>;
 type CreateCheckoutSessionOptions = OptionsType<
-  TStorefront.operations["StorefrontCart_CreateCartCheckout"]
+  Storefront.operations["StorefrontCart_CreateCartCheckout"]
 >;
 
 export class CartAPI {
-  private client: APIClient<TStorefront.paths>;
+  private client: APIClient<Storefront.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
     this.client = new APIClient({ ...config });

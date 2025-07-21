@@ -1,13 +1,13 @@
-import type { Storefront as TStorefront } from "../../generated";
+import type { Storefront } from "../../generated";
 import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
 type GetCustomerOptions = OptionsType<
-  TStorefront.operations["StorefrontCustomer_GetStorefrontCustomer"]
+  Storefront.operations["StorefrontCustomer_GetStorefrontCustomer"]
 >;
 
 export class CustomerAPI {
-  private client: APIClient<TStorefront.paths>;
+  private client: APIClient<Storefront.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
     this.client = new APIClient({ ...config });
