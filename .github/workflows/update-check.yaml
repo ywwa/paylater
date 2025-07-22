@@ -30,7 +30,7 @@ jobs:
         run: pnpm ts-node scripts/generate.ts --ci
 
       - name: Commit and push changes
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: update generated API types'
