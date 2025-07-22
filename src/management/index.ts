@@ -93,9 +93,14 @@ export class ManagementAPI {
     ];
   }
 
-  setToken(scheme: AuthScheme, token: string): void {
+  /**
+   * Set the API token for all sub-clients.
+   * Restricted to the "apikey" scheme.
+   * @param token API token
+   */
+  setToken(token: string): void {
     for (const client of this.subClients) {
-      client.setToken(scheme, token);
+      client.setToken("apikey", token);
     }
   }
 

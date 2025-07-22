@@ -49,9 +49,15 @@ export class StorefrontAPI {
     ];
   }
 
-  setToken(scheme: AuthScheme, token: string): void {
+  /**
+   * Set the token for all sub-clients.
+   * This method is used to authenticate requests made by the storefront API.
+   * It allows you to set a token for the "customer" authentication scheme.
+   * @param token customer token
+   */
+  setToken(token: string): void {
     for (const client of this.subClients) {
-      client.setToken(scheme, token);
+      client.setToken("customer", token);
     }
   }
 
