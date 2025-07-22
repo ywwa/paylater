@@ -11,6 +11,7 @@ import {
   DownloadableFileAPI,
   GlobalCommandAPI,
   MarketingAPI,
+  NavlinkAPI,
   OrderAPI,
   ProductAPI,
   SubscriptionAPI,
@@ -33,6 +34,7 @@ export class ManagementAPI {
   public readonly downloadableFile: DownloadableFileAPI;
   public readonly globalCommand: GlobalCommandAPI;
   public readonly marketing: MarketingAPI;
+  public readonly navlink: NavlinkAPI;
   public readonly order: OrderAPI;
   public readonly product: ProductAPI;
   public readonly subscription: SubscriptionAPI;
@@ -60,6 +62,7 @@ export class ManagementAPI {
     this.downloadableFile = new DownloadableFileAPI(config);
     this.globalCommand = new GlobalCommandAPI(config);
     this.marketing = new MarketingAPI(config);
+    this.navlink = new NavlinkAPI(config);
     this.order = new OrderAPI(config);
     this.product = new ProductAPI(config);
     this.subscription = new SubscriptionAPI(config);
@@ -80,6 +83,7 @@ export class ManagementAPI {
       this.downloadableFile,
       this.globalCommand,
       this.marketing,
+      this.navlink,
       this.order,
       this.product,
       this.subscription,

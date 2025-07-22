@@ -10,6 +10,7 @@ export { DiscordAPI } from "./discord";
 export { DownloadableFileAPI } from "./downloadable-file";
 export { GlobalCommandAPI } from "./global-command";
 export { MarketingAPI } from "./marketing";
+export { NavlinkAPI } from "./navlink";
 export { OrderAPI } from "./order";
 export { ProductAPI } from "./product";
 export { SubscriptionAPI } from "./subscription";
