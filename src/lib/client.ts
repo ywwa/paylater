@@ -88,8 +88,6 @@ export class APIClient<TPaths> {
       ...Object.fromEntries(Object.entries(config.headers ?? {}).map(([k, v]) => [k, String(v)])),
     };
 
-    console.log(requestHeaders);
-
     // Inject Authorization header if token is set and not explicitly overriden
     if (this.authToken && !requestHeaders.Authorization) {
       requestHeaders.Authorization = `${this.authScheme} ${this.authToken}`;
