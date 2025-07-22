@@ -1,38 +1,18 @@
-import type { AuthScheme, ClientConfig } from "../../lib/types";
-
-export class ManagementAPI {
-  private subClients: Array<{
-    setToken: (scheme: AuthScheme, token: string) => void;
-    clearToken: () => void;
-    setDefaultHeader: (key: string, value: string) => void;
-    removeDefaultHeader: (key: string) => void;
-  }>;
-
-  constructor(config?: Partial<ClientConfig>) {
-    this.subClients = [];
-  }
-
-  setToken(scheme: AuthScheme, token: string): void {
-    for (const client of this.subClients) {
-      client.setToken(scheme, token);
-    }
-  }
-
-  clearToken(): void {
-    for (const client of this.subClients) {
-      client.clearToken();
-    }
-  }
-
-  setDefaultHeader(key: string, value: string): void {
-    for (const client of this.subClients) {
-      client.setDefaultHeader(key, value);
-    }
-  }
-
-  removeDefaultHeader(key: string): void {
-    for (const client of this.subClients) {
-      client.removeDefaultHeader(key);
-    }
-  }
-}
+export { AffiliateLinkAPI } from "./affiliate-link";
+export { BanAPI } from "./ban";
+export { CheckoutAPI } from "./checkout";
+export { CouponAPI } from "./coupon";
+export { CustomVariableAPI } from "./custom-variable";
+export { CustomerAPI } from "./customer";
+export { DataMigrationAPI } from "./data-migration";
+export { DeliverableAPI } from "./deliverable";
+export { DiscordAPI } from "./discord";
+export { DownloadableFileAPI } from "./downloadable-file";
+export { GlobalCommandAPI } from "./global-command";
+export { MarketingAPI } from "./marketing";
+export { OrderAPI } from "./order";
+export { ProductAPI } from "./product";
+export { SubscriptionAPI } from "./subscription";
+export { TagAPI } from "./tag";
+export { TrustAPI } from "./trust";
+export { WebhookAPI } from "./webhook";
