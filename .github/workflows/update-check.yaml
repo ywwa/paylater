@@ -27,9 +27,20 @@ jobs:
         run: pnpm install
 
       - name: Generate types
+        id: generate
         run: pnpm ts-node scripts/generate.ts --ci
 
-      - name: Commit and push changes
+      - name: Check for generated changes
+        id: check
+        run: |
+          if git diff --quiet src/generated; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create or update Pull Request
+        if: steps.check.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,4 +50,3 @@ jobs:
           body: |
             This PR bumps the generated API code.
             Please review and adjust codebase as needed for new definitions.
-          path: src/generated
