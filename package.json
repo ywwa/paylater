@@ -2,15 +2,33 @@
   "name": "@ywwa/paylater",
   "version": "2.0.0",
   "description": "API Wrapper for PayNow.gg",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./storefront": {
+      "import": "./dist/storefront/index.js",
+      "require": "./dist/storefront/index.cjs"
+    },
+    "./management": {
+      "import": "./dist/management/index.js",
+      "require": "./dist/management/index.cjs"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "codegen": "ts-node scripts/generate.ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ywwa/pnapi"
+    "url": "https://github.com/ywwa/paylater"
   },
-  "homepage": "https://github.com/ywwa/pnapi",
+  "homepage": "https://github.com/ywwa/paylater",
   "keywords": [],
   "author": {
     "name": "Gabriels Kukutis",
