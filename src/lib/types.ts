@@ -1,5 +1,5 @@
 /** Authentication method. Using 'user' is not recommended */
-export type AuthScheme = "user" | "api" | "customer";
+export type AuthScheme = "user" | "apikey" | "customer";
 
 // API CLIENT TYPES
 
