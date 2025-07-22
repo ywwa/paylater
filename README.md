@@ -52,7 +52,7 @@ const customer = client.customer.getCustomerById({
 
 ## API Reference
 
-This client mirrors the official [PayNow API documentation](https://paynow.gitbook.io/paynow-api) - refer to it forthe full list of available endpoints, parameters, and expected responses.
+This client mirrors the official [PayNow API documentation](https://paynow.gitbook.io/paynow-api) - refer to it for the full list of available endpoints, parameters, and expected responses.
 
 ## Development
 
