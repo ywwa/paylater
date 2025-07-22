@@ -39,4 +39,4 @@ jobs:
           body: |
             This PR bumps the generated API code.
             Please review and adjust codebase as needed for new definitions.
-          paths: src/generated
+          path: src/generated
