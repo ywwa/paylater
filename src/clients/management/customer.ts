@@ -23,7 +23,7 @@ type BulkCreateCustomersOptions = OptionsType<
   Management.operations["Customers_BulkCreateCustomers"]
 >;
 
-export class CustomVariableAPI {
+export class CustomerAPI {
   private client: APIClient<Management.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
