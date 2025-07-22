@@ -2,19 +2,41 @@ name: Update Check
 
 on:
   push:
-    branches:
-      - '**'
+    branches: ['**']
   schedule:
-    - cron: '0 18 * * *'
+    - cron: '0 18 * * *'  # daily 18:00 UTC
 
 jobs:
-  run:
+  generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: pnpm/action-setup@v4
-      - run: pnpm install
-      - run: pnpm ts-node scripts/generate.ts --ci
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate types
+        run: pnpm ts-node scripts/generate.ts --ci
+
+      - name: Commit and push changes
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update generated API types'
+          branch: update/generated-types
+          title: 'chore: update generated API types'
+          body: |
+            This PR bumps the generated API code.
+            Please review and adjust codebase as needed for new definitions.
+          paths: src/generated
