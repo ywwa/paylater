@@ -4,6 +4,10 @@
   "description": "API Wrapper for PayNow.gg",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -22,7 +26,8 @@
     "build": "tsc",
     "lint": "biome check",
     "format": "biome format --write",
-    "codegen": "ts-node scripts/generate.ts"
+    "codegen": "ts-node scripts/generate.ts",
+    "prepublish": "rm -rf dist && pnpm build"
   },
   "repository": {
     "type": "git",
@@ -35,7 +40,7 @@
     "email": "contact@ywwa.cc"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
     "@types/node": "^24.0.4",
