@@ -643,6 +643,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/navlinks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all NavLinks for a store */
+        get: operations["NavLinks_GetNavLinks"];
+        put?: never;
+        /** Create a new NavLink for a store */
+        post: operations["NavLinks_CreateNavLink"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/navlinks/{navLinkId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a NavLink by ID for a store */
+        get: operations["NavLinks_GetNavLink"];
+        put?: never;
+        post?: never;
+        /** Delete a NavLink for a store */
+        delete: operations["NavLinks_DeleteNavLink"];
+        options?: never;
+        head?: never;
+        /** Update a NavLink By ID for a store */
+        patch: operations["NavLinks_UpdateNavLink"];
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/navlinks/sort-orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update the sort orders of NavLinks for a Store */
+        patch: operations["NavLinks_UpdateNavLinkOrder"];
+        trace?: never;
+    };
     "/v1/stores/{storeId}/orders": {
         parameters: {
             query?: never;
@@ -1883,6 +1937,15 @@ export interface components {
             /** @description The URL to the player's Minecraft skin rendered as an avatar. */
             avatar_url: string;
         };
+        NavLinkDto: {
+            node_id: string;
+            parent_node_id?: string | null;
+            tag_id: components["schemas"]["FlakeId"];
+            tag_slug: string;
+            name: string;
+            /** Format: int32 */
+            order: number;
+        };
         /** @description Represents a customer order */
         OrderDto: {
             id: components["schemas"]["FlakeId"];
@@ -2965,6 +3028,11 @@ export interface components {
             /** Format: int64 */
             commission_amount?: number | null;
         };
+        UpdateNavLinkOrderChangeDto: {
+            node_id: components["schemas"]["FlakeId"];
+            /** Format: int32 */
+            order: number;
+        };
         UpdateProductSortOrderRequestDto: {
             /** @description An array of product IDs in the order that they should be sorted. */
             product_ids: components["schemas"]["FlakeId"][];
@@ -3027,6 +3095,12 @@ export interface components {
             online_only: boolean;
             /** @description List of specific game server IDs where this command should be executed. */
             override_execute_on_gameserver_ids?: components["schemas"]["FlakeId"][] | null;
+        };
+        UpsertNavLinkRequestDto: {
+            tag_id?: components["schemas"]["FlakeId"];
+            parent_node_id?: components["schemas"]["FlakeId"];
+            /** Format: int32 */
+            order: number;
         };
         UpsertProductRequestDto: {
             /** @description The unique URL-safe identifier (slug) for the product. */
@@ -5300,6 +5374,215 @@ export interface operations {
                     "application/json": components["schemas"]["PurchaseFollowUpStoreConfigurationDto"];
                 };
             };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_GetNavLinks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NavLinkDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_CreateNavLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpsertNavLinkRequestDto"];
+                "text/json": components["schemas"]["UpsertNavLinkRequestDto"];
+                "application/*+json": components["schemas"]["UpsertNavLinkRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NavLinkDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_GetNavLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                navLinkId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NavLinkDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_DeleteNavLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                navLinkId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_UpdateNavLink: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                navLinkId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertNavLinkRequestDto"];
+                "text/json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertNavLinkRequestDto"];
+                "application/*+json": {
+                    [key: string]: unknown;
+                } & components["schemas"]["UpsertNavLinkRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NavLinkDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    NavLinks_UpdateNavLinkOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateNavLinkOrderChangeDto"][];
+                "text/json": components["schemas"]["UpdateNavLinkOrderChangeDto"][];
+                "application/*+json": components["schemas"]["UpdateNavLinkOrderChangeDto"][];
+            };
+        };
+        responses: {
             /** @description No Content */
             204: {
                 headers: {
