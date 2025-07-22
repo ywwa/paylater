@@ -18,7 +18,7 @@ type DeleteAffiliateLinkOptions = OptionsType<
   Management.operations["AffiliateLinks_DeleteAffiliateLink"]
 >;
 
-export class AffiliateLinksAPI {
+export class AffiliateLinkAPI {
   private client: APIClient<Management.paths>;
 
   constructor(config?: Partial<ClientConfig>) {

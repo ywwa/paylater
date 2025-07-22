@@ -2,11 +2,11 @@ import type { Management } from "../../generated";
 import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
-type ResendCommandsForGameServerOptions = OptionsType<
-  Management.operations["Deliverables_ResendCommandsForGameServer"]
+type GetStoreOnboardingStatusOptions = OptionsType<
+  Management.operations["TrustStoreOnboarding_GetStoreOnboardingStatus"]
 >;
 
-export class DeliverablesAPI {
+export class TrustAPI {
   private client: APIClient<Management.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
@@ -29,10 +29,7 @@ export class DeliverablesAPI {
     this.client.removeDefaultHeader(key);
   }
 
-  async getDataMigrations(options: ResendCommandsForGameServerOptions) {
-    return this.client.post(
-      "/v1/stores/{storeId}/deliverables/{deliverableId}/commands/resend",
-      options,
-    );
+  async getStoreOnboardingStatus(options: GetStoreOnboardingStatusOptions) {
+    return this.client.get("/v1/stores/{storeId}/trust/onboarding/status", options);
   }
 }

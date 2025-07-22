@@ -9,7 +9,7 @@ type CheckBansOptions = OptionsType<Management.operations["Bans_CheckForBanByIde
 type UpdateBanOptions = OptionsType<Management.operations["Bans_UpdateBan"]>;
 type DeleteBanOptions = OptionsType<Management.operations["Bans_DeleteBan"]>;
 
-export class BansAPI {
+export class BanAPI {
   private client: APIClient<Management.paths>;
 
   constructor(config?: Partial<ClientConfig>) {
