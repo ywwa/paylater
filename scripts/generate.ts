@@ -58,7 +58,7 @@ async function generate(): Promise<void> {
     Object.entries(specs).map(async ([NAME, ENDPOINT]) => {
       stats.total += 1;
 
-      const fileName = `${NAME}.d.ts`;
+      const fileName = `${NAME}.ts`;
       const filePath = path.join(outDir, fileName);
 
       try {
