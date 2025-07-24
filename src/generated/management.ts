@@ -912,22 +912,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stores/{storeId}/trust/onboarding/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["TrustStoreOnboarding_GetStoreOnboardingStatus"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/stores/{storeId}/subscriptions": {
         parameters: {
             query?: never;
@@ -1080,6 +1064,38 @@ export interface paths {
          * @description Deletes an image for a tag
          */
         delete: operations["Tags_DeleteTagImage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/trust/onboarding/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TrustStoreOnboarding_GetStoreOnboardingStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/trust/requirements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["TrustStoreRequirement_GetStoreTrustRequirements"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2800,6 +2816,18 @@ export interface components {
             currency?: string | null;
             tax_inclusive?: boolean | null;
         };
+        /**
+         * @description Determines the party that needs to perform or requests a verification
+         * @enum {string}
+         */
+        StoreRequirementActionParty: "invalid" | "store" | "paynow" | "payment_processor" | "payout_provider" | "kyc_provider" | "external";
+        /**
+         * @description Represents categories of requirements that must be fulfilled for store setup and compliance in the PayNow platform.
+         * @enum {string}
+         */
+        StoreRequirementCategory: "invalid" | "business" | "kyc" | "compliance" | "risk" | "technical" | "financial" | "legal" | "other";
+        /** @enum {string} */
+        StoreRequirementStatus: "invalid" | "pending" | "under_review" | "requires_revision" | "approved" | "expired" | "waived" | "rejected_final";
         /** @description Data transfer object representing a store subscription. */
         StoreSubscriptionDto: {
             id: components["schemas"]["FlakeId"];
@@ -3014,6 +3042,95 @@ export interface components {
         };
         /** @enum {string} */
         TrustStoreOnboardingStatus: "invalid" | "pending" | "approved" | "declined" | "requires_action" | "under_review";
+        TrustStoreRequirementDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description Template ID if this requirement was created from a template. Null for ad-hoc requirements. */
+            template_id?: string | null;
+            originating_flag_id?: components["schemas"]["FlakeId"];
+            category: components["schemas"]["StoreRequirementCategory"];
+            /** @description Unique code identifying the type of requirement. Copied from template or custom for ad-hoc requirements. */
+            code: string;
+            /** @description Human-readable name of the requirement. Copied from template or custom for ad-hoc requirements. */
+            name: string;
+            /** @description Detailed description explaining what the store needs to provide. Copied from template or custom for ad-hoc requirements. */
+            description?: string | null;
+            /** @description JSON schema defining the form fields, validation rules, and document requirements */
+            schema?: unknown;
+            /** @description Additional metadata for this requirement (stored as JSON) */
+            metadata: {
+                [key: string]: string;
+            };
+            status: components["schemas"]["StoreRequirementStatus"];
+            requested_by: components["schemas"]["StoreRequirementActionParty"];
+            /** @description Specifies the specific requester entity (e.g., "stripe", "trolley", or admin user ID)
+             *     Free-form string for internal records */
+            requested_by_detail?: string | null;
+            /**
+             * Format: date-time
+             * @description When this requirement was created
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @description When this requirement was last updated
+             */
+            updated_at?: string | null;
+            /**
+             * Format: date-time
+             * @description When this requirement must be completed by (optional)
+             */
+            deadline_at?: string | null;
+            /**
+             * Format: date-time
+             * @description When the store submitted their response to this requirement
+             */
+            submitted_at?: string | null;
+            /**
+             * Format: date-time
+             * @description When this requirement was verified and approved
+             */
+            verified_at?: string | null;
+            /**
+             * Format: date-time
+             * @description When this requirement was rejected for not meeting standards
+             */
+            rejected_at?: string | null;
+            /** @description Store capabilities that are restricted until this requirement is satisfied */
+            restricts_capabilities: string[];
+            /** @description Associated submissions for this requriement. */
+            submissions: components["schemas"]["TrustStoreRequirementSubmissionDto"][];
+        };
+        TrustStoreRequirementSubmissionDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            store_requirement_id: components["schemas"]["FlakeId"];
+            /** @description The identifier of the specific field within the store requirement. */
+            store_requirement_field_id: string;
+            /** @description The text value submitted for this field, if applicable. */
+            text_value?: string | null;
+            /** @description The identifier of the uploaded file, if a file was submitted. */
+            file_id?: string | null;
+            /** @description The original name of the uploaded file. */
+            file_name?: string | null;
+            /** @description The MIME content type of the uploaded file. */
+            file_content_type?: string | null;
+            /**
+             * Format: int64
+             * @description The size of the uploaded file in bytes.
+             */
+            file_size_bytes?: number | null;
+            /**
+             * Format: date-time
+             * @description The timestamp when this submission was made.
+             */
+            submitted_at: string;
+            submitted_by: components["schemas"]["ActorDto"];
+            /** @description The IP address from which the submission was made. */
+            submitted_by_ip_address?: string | null;
+            /** @description The user agent string of the client that made the submission. */
+            submitted_by_user_agent?: string | null;
+        };
         UpdateAffiliateLinkDto: {
             enabled?: boolean | null;
             code?: string | null;
@@ -6147,37 +6264,6 @@ export interface operations {
             };
         };
     };
-    TrustStoreOnboarding_GetStoreOnboardingStatus: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TrustStoreOnboardingDto"];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
     Subscriptions_GetSubscriptions: {
         parameters: {
             query?: {
@@ -6562,6 +6648,87 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    TrustStoreOnboarding_GetStoreOnboardingStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrustStoreOnboardingDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    TrustStoreRequirement_GetStoreTrustRequirements: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: number;
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: number;
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrustStoreRequirementDto"][];
+                };
             };
             /** @description Error response */
             default: {

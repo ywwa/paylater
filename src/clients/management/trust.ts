@@ -5,6 +5,9 @@ import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 type GetStoreOnboardingStatusOptions = OptionsType<
   Management.operations["TrustStoreOnboarding_GetStoreOnboardingStatus"]
 >;
+type GetStoreTrustRequirementsOptions = OptionsType<
+  Management.operations["TrustStoreRequirement_GetStoreTrustRequirements"]
+>;
 
 export class TrustAPI {
   private client: APIClient<Management.paths>;
@@ -31,5 +34,9 @@ export class TrustAPI {
 
   async getStoreOnboardingStatus(options: GetStoreOnboardingStatusOptions) {
     return this.client.get("/v1/stores/{storeId}/trust/onboarding/status", options);
+  }
+
+  async getStoreTrustRequirements(options: GetStoreTrustRequirementsOptions) {
+    return this.client.get("/v1/stores/{storeId}/trust/requirements", options);
   }
 }
