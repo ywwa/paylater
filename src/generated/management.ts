@@ -1481,6 +1481,36 @@ export interface components {
             /** @description The URL to redirect the customer to complete checkout */
             url: string;
         };
+        CreateCouponDto: {
+            enabled?: boolean;
+            code?: string;
+            note?: string;
+            duration?: components["schemas"]["CouponDurationEnum"];
+            /** Format: int32 */
+            duration_in_months?: number;
+            discount_type?: components["schemas"]["CouponDiscountTypeEnum"];
+            /** Format: int64 */
+            discount_amount?: number;
+            discount_apply_individually?: boolean;
+            discount_apply_before_sales?: boolean;
+            apply_to_products?: components["schemas"]["FlakeId"][];
+            apply_to_tags?: components["schemas"]["FlakeId"][];
+            usable_by_customer_id?: components["schemas"]["FlakeId"];
+            /** Format: int64 */
+            minimum_order_value?: number;
+            redeem_limit_store_enabled?: boolean;
+            /** Format: int64 */
+            redeem_limit_store_amount?: number;
+            redeem_limit_customer_enabled?: boolean;
+            /** Format: int64 */
+            redeem_limit_customer_amount?: number;
+            usable_on_one_time_purchase?: boolean;
+            usable_on_subscription?: boolean;
+            /** Format: date-time */
+            usable_at?: string;
+            /** Format: date-time */
+            expires_at?: string;
+        };
         CreateDownloadableFileDownloadUrlResponseDto: {
             download_signed_url: string;
         };
@@ -2269,7 +2299,7 @@ export interface components {
         PaymentDeclineCode: "unknown" | "generic_decline" | "call_issuer" | "authentication_required" | "currency_not_supported" | "duplicate_transaction" | "expired_card" | "fraudulent" | "incorrect_number" | "incorrect_cvc" | "incorrect_pin" | "incorrect_zip" | "insufficient_funds" | "invalid_account" | "invalid_amount" | "invalid_expiry_month" | "invalid_expiry_year" | "issuer_not_available" | "lost_card" | "merchant_blacklist" | "new_account_information_available" | "no_action_taken" | "pickup_card" | "pin_try_exceeded" | "restricted_card" | "stolen_card" | "testmode_decline" | "try_again_later" | "security_violation" | "card_velocity_exceeded" | "do_not_honor" | "processing_error" | "card_not_supported" | "transaction_not_allowed" | "authorization_revoked";
         /**
          * Format: period
-         * @description ISO 8601 period format
+         * @description ISO 8601 duration format
          * @example P1Y2M3DT4H5M6S
          */
         Period: string;
@@ -3145,6 +3175,36 @@ export interface components {
             /** Format: int64 */
             commission_amount?: number | null;
         };
+        UpdateCouponDto: {
+            enabled?: boolean;
+            code?: string;
+            note?: string;
+            duration?: components["schemas"]["CouponDurationEnum"];
+            /** Format: int32 */
+            duration_in_months?: number;
+            discount_type?: components["schemas"]["CouponDiscountTypeEnum"];
+            /** Format: int64 */
+            discount_amount?: number;
+            discount_apply_individually?: boolean;
+            discount_apply_before_sales?: boolean;
+            apply_to_products?: components["schemas"]["FlakeId"][];
+            apply_to_tags?: components["schemas"]["FlakeId"][];
+            usable_by_customer_id?: components["schemas"]["FlakeId"];
+            /** Format: int64 */
+            minimum_order_value?: number;
+            redeem_limit_store_enabled?: boolean;
+            /** Format: int64 */
+            redeem_limit_store_amount?: number;
+            redeem_limit_customer_enabled?: boolean;
+            /** Format: int64 */
+            redeem_limit_customer_amount?: number;
+            usable_on_one_time_purchase?: boolean;
+            usable_on_subscription?: boolean;
+            /** Format: date-time */
+            usable_at?: string;
+            /** Format: date-time */
+            expires_at?: string;
+        };
         UpdateNavLinkOrderChangeDto: {
             node_id: components["schemas"]["FlakeId"];
             /** Format: int32 */
@@ -3843,15 +3903,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
+                "application/json": components["schemas"]["CreateCouponDto"];
+                "text/json": components["schemas"]["CreateCouponDto"];
+                "application/*+json": components["schemas"]["CreateCouponDto"];
             };
         };
         responses: {
@@ -3958,15 +4012,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["CouponDto"];
+                "application/json": components["schemas"]["UpdateCouponDto"];
+                "text/json": components["schemas"]["UpdateCouponDto"];
+                "application/*+json": components["schemas"]["UpdateCouponDto"];
             };
         };
         responses: {
