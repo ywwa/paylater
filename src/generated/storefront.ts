@@ -107,6 +107,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/store/customer/giftcards/lookup/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lookup a gift card by the code */
+        get: operations["StorefrontCustomer_GetStorefrontGiftCard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stores/{storeId}/product_versions/discord_actions": {
         parameters: {
             query?: never;
@@ -573,6 +590,15 @@ export interface components {
              *     Lower numbers appear first.
              */
             sort_order: number;
+        };
+        StorefrontGiftCardDto: {
+            code: string;
+            /** Format: int32 */
+            balance: number;
+            /** Format: int32 */
+            starting_balance: number;
+            /** Format: date-time */
+            expires_at?: string | null;
         };
         /** @description Represents a navigation link in the storefront's hierarchical navigation structure. */
         StorefrontNavLinkDto: {
@@ -1173,6 +1199,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CustomerDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    StorefrontCustomer_GetStorefrontGiftCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StorefrontGiftCardDto"];
                 };
             };
             /** @description Error response */
