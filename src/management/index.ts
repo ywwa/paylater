@@ -9,11 +9,13 @@ import {
   DeliverableAPI,
   DiscordAPI,
   DownloadableFileAPI,
+  GiftCardAPI,
   GlobalCommandAPI,
   MarketingAPI,
   NavlinkAPI,
   OrderAPI,
   ProductAPI,
+  SaleAPI,
   SubscriptionAPI,
   TagAPI,
   TrustAPI,
@@ -32,11 +34,13 @@ export class ManagementAPI {
   public readonly deliverable: DeliverableAPI;
   public readonly discord: DiscordAPI;
   public readonly downloadableFile: DownloadableFileAPI;
+  public readonly giftCard: GiftCardAPI;
   public readonly globalCommand: GlobalCommandAPI;
   public readonly marketing: MarketingAPI;
   public readonly navlink: NavlinkAPI;
   public readonly order: OrderAPI;
   public readonly product: ProductAPI;
+  public readonly sale: SaleAPI;
   public readonly subscription: SubscriptionAPI;
   public readonly tag: TagAPI;
   public readonly trust: TrustAPI;
@@ -60,11 +64,13 @@ export class ManagementAPI {
     this.deliverable = new DeliverableAPI(config);
     this.discord = new DiscordAPI(config);
     this.downloadableFile = new DownloadableFileAPI(config);
+    this.giftCard = new GiftCardAPI(config);
     this.globalCommand = new GlobalCommandAPI(config);
     this.marketing = new MarketingAPI(config);
     this.navlink = new NavlinkAPI(config);
     this.order = new OrderAPI(config);
     this.product = new ProductAPI(config);
+    this.sale = new SaleAPI(config);
     this.subscription = new SubscriptionAPI(config);
     this.tag = new TagAPI(config);
     this.trust = new TrustAPI(config);
@@ -81,11 +87,13 @@ export class ManagementAPI {
       this.deliverable,
       this.discord,
       this.downloadableFile,
+      this.giftCard,
       this.globalCommand,
       this.marketing,
       this.navlink,
       this.order,
       this.product,
+      this.sale,
       this.subscription,
       this.tag,
       this.trust,

@@ -559,6 +559,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/giftcards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Gift Cards for a store */
+        get: operations["GiftCards_GetGiftCards"];
+        put?: never;
+        /** Create a Gift Card for a store */
+        post: operations["GiftCards_CreateGiftCard"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/giftcards/{giftCardId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a Gift Card By ID for a store */
+        get: operations["GiftCards_GetGiftCard"];
+        put?: never;
+        post?: never;
+        /** Delete a Gift Card By ID for a store */
+        delete: operations["GiftCards_DeleteGiftCard"];
+        options?: never;
+        head?: never;
+        /** Update a Gift Card By ID for a store */
+        patch: operations["GiftCards_UpdateGiftCard"];
+        trace?: never;
+    };
     "/v1/stores/{storeId}/global-commands": {
         parameters: {
             query?: never;
@@ -912,6 +949,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/sales": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get sales associated with a store. */
+        get: operations["Sales_GetSales"];
+        put?: never;
+        /** Create a sale by ID for a store */
+        post: operations["Sales_CreateSale"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/sales/{saleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a sale by ID for a store */
+        get: operations["Sales_GetSale"];
+        put?: never;
+        post?: never;
+        /** Delete a sale by ID for a store */
+        delete: operations["Sales_DeleteSaleById"];
+        options?: never;
+        head?: never;
+        /** Update a sale by ID for a store */
+        patch: operations["Sales_UpdateSale"];
+        trace?: never;
+    };
     "/v1/stores/{storeId}/subscriptions": {
         parameters: {
             query?: never;
@@ -1238,7 +1312,7 @@ export interface components {
         };
         ActorDto: {
             type: components["schemas"]["PayNowActorType"];
-            id: components["schemas"]["FlakeId"];
+            id?: components["schemas"]["FlakeId"];
         };
         /** @enum {string} */
         AffiliateLinkCommissionType: "none" | "fixed" | "percentage";
@@ -1482,30 +1556,30 @@ export interface components {
             url: string;
         };
         CreateCouponDto: {
-            enabled?: boolean;
-            code?: string;
+            enabled: boolean;
+            code: string;
             note?: string;
-            duration?: components["schemas"]["CouponDurationEnum"];
+            duration: components["schemas"]["CouponDurationEnum"];
             /** Format: int32 */
             duration_in_months?: number;
-            discount_type?: components["schemas"]["CouponDiscountTypeEnum"];
+            discount_type: components["schemas"]["CouponDiscountTypeEnum"];
             /** Format: int64 */
-            discount_amount?: number;
-            discount_apply_individually?: boolean;
-            discount_apply_before_sales?: boolean;
+            discount_amount: number;
+            discount_apply_individually: boolean;
+            discount_apply_before_sales: boolean;
             apply_to_products?: components["schemas"]["FlakeId"][];
             apply_to_tags?: components["schemas"]["FlakeId"][];
             usable_by_customer_id?: components["schemas"]["FlakeId"];
             /** Format: int64 */
-            minimum_order_value?: number;
-            redeem_limit_store_enabled?: boolean;
+            minimum_order_value: number;
+            redeem_limit_store_enabled: boolean;
             /** Format: int64 */
-            redeem_limit_store_amount?: number;
-            redeem_limit_customer_enabled?: boolean;
+            redeem_limit_store_amount: number;
+            redeem_limit_customer_enabled: boolean;
             /** Format: int64 */
-            redeem_limit_customer_amount?: number;
-            usable_on_one_time_purchase?: boolean;
-            usable_on_subscription?: boolean;
+            redeem_limit_customer_amount: number;
+            usable_on_one_time_purchase: boolean;
+            usable_on_subscription: boolean;
             /** Format: date-time */
             usable_at?: string;
             /** Format: date-time */
@@ -1514,11 +1588,43 @@ export interface components {
         CreateDownloadableFileDownloadUrlResponseDto: {
             download_signed_url: string;
         };
+        CreateGiftCardDto: {
+            enabled: boolean;
+            code: string;
+            note?: string;
+            /** Format: int64 */
+            balance: number;
+            /** Format: date-time */
+            usable_at: string;
+            /** Format: date-time */
+            expires_at?: string;
+        };
+        CreateNavLinkDto: {
+            tag_id: components["schemas"]["FlakeId"];
+            parent_node_id?: string;
+            /** Format: int32 */
+            order?: number;
+        };
         CreateRefundRequestDto: {
             order_line_id?: components["schemas"]["FlakeId"];
             /** @description Determines if the refund should be taken from the connected user's balance.
              *     Only relevant for connected platforms. */
             refund_from_connected_user_balance?: boolean | null;
+        };
+        CreateSaleDto: {
+            enabled: boolean;
+            name: string;
+            discount_type: components["schemas"]["SaleDiscountType"];
+            /** Format: int32 */
+            discount_amount: number;
+            apply_to_product_ids: components["schemas"]["FlakeId"][];
+            apply_to_tag_ids: components["schemas"]["FlakeId"][];
+            /** Format: int32 */
+            minimum_order_value: number;
+            /** Format: date-time */
+            begins_at: string;
+            /** Format: date-time */
+            ends_at?: string;
         };
         CreateWebhookDto: {
             url: string;
@@ -1812,6 +1918,60 @@ export interface components {
             /** @description The URL to upload the image to. */
             upload_url: string;
         };
+        /** @description Represents a gift card in the PayNow system. */
+        GiftCardDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description Indicates whether the gift card is currently enabled and can be used. */
+            enabled: boolean;
+            /**
+             * @description The unique code that customers use to redeem the gift card.
+             * @example GIFT-2024-ABCD1234
+             */
+            code: string;
+            /** @description Optional note or description associated with the gift card. */
+            note?: string | null;
+            /**
+             * Format: int64
+             * @description The current balance remaining on the gift card in cents.
+             * @example 2500
+             */
+            balance: number;
+            /**
+             * Format: int64
+             * @description The original balance when the gift card was first created in cents.
+             * @example 5000
+             */
+            starting_balance: number;
+            /**
+             * Format: date-time
+             * @description The date and time when the gift card becomes usable.
+             */
+            usable_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when the gift card expires, if applicable.
+             */
+            expires_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the gift card was created.
+             */
+            created_at?: string | null;
+            created_by?: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the gift card was last updated, if applicable.
+             */
+            updated_at?: string | null;
+            updated_by?: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the gift card was canceled, if applicable.
+             */
+            canceled_at?: string | null;
+            canceled_by?: components["schemas"]["ActorDto"];
+        };
         /** @description Represents a global command in the system.
          *     Global commands are instructions that can be executed across a store's environment. */
         GlobalCommandDto: {
@@ -1985,12 +2145,12 @@ export interface components {
         };
         NavLinkDto: {
             node_id: string;
-            parent_node_id?: string | null;
             tag_id: components["schemas"]["FlakeId"];
+            parent_node_id?: string | null;
             tag_slug: string;
             name: string;
             /** Format: int32 */
-            order: number;
+            order?: number | null;
         };
         /** @description Represents a customer order */
         OrderDto: {
@@ -2783,6 +2943,56 @@ export interface components {
             /** Format: int32 */
             enqueued_commands_count: number;
         };
+        /** @enum {string} */
+        SaleDiscountType: "percent" | "amount";
+        /** @description Represents a detailed view of a Sale, including configuration and audit information. */
+        SaleDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description Indicates whether the sale is enabled. */
+            enabled: boolean;
+            /** @description The name of the sale. */
+            name: string;
+            discount_type: components["schemas"]["SaleDiscountType"];
+            /**
+             * Format: int32
+             * @description The discount value. For percent discounts, this represents the percentage
+             *     multiplied by 10 (e.g., 250 = 25%). For amount discounts, this represents
+             *     the value in the smallest currency unit (e.g., cents).
+             */
+            discount_amount: number;
+            /** @description A list of product IDs the sale applies to. */
+            apply_to_product_ids: components["schemas"]["FlakeId"][];
+            /** @description A list of tag IDs the sale applies to. */
+            apply_to_tag_ids: components["schemas"]["FlakeId"][];
+            /**
+             * Format: int32
+             * @description The minimum order value required to apply the sale, in the smallest currency unit (e.g., cents).
+             */
+            minimum_order_value: number;
+            /**
+             * Format: date-time
+             * @description The date and time when the sale begins.
+             */
+            begins_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when the sale ends.
+             */
+            ends_at?: string | null;
+            created_by: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the sale was created.
+             */
+            created_at: string;
+            updated_by?: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the sale was last updated.
+             */
+            updated_at?: string | null;
+        };
         /** @description Object representing a sales tax jurisdiction and its associated taxes. */
         SalesTaxJurisdictionDto: {
             /**
@@ -3069,6 +3279,8 @@ export interface components {
             products_created: boolean;
             kyc_required: boolean;
             gameserver_linked: boolean;
+            webhooks_active: boolean;
+            downloadable_files_added: boolean;
         };
         /** @enum {string} */
         TrustStoreOnboardingStatus: "invalid" | "pending" | "approved" | "declined" | "requires_action" | "under_review";
@@ -3205,6 +3417,23 @@ export interface components {
             /** Format: date-time */
             expires_at?: string;
         };
+        UpdateGiftCardDto: {
+            enabled?: boolean;
+            code?: string;
+            note?: string;
+            /** Format: int64 */
+            balance?: number;
+            /** Format: date-time */
+            usable_at?: string;
+            /** Format: date-time */
+            expires_at?: string;
+        };
+        UpdateNavLinkDto: {
+            tag_id?: components["schemas"]["FlakeId"];
+            parent_node_id?: string;
+            /** Format: int32 */
+            order?: number;
+        };
         UpdateNavLinkOrderChangeDto: {
             node_id: components["schemas"]["FlakeId"];
             /** Format: int32 */
@@ -3213,6 +3442,21 @@ export interface components {
         UpdateProductSortOrderRequestDto: {
             /** @description An array of product IDs in the order that they should be sorted. */
             product_ids: components["schemas"]["FlakeId"][];
+        };
+        UpdateSaleDto: {
+            enabled?: boolean;
+            name?: string;
+            discount_type?: components["schemas"]["SaleDiscountType"];
+            /** Format: int32 */
+            discount_amount?: number;
+            apply_to_product_ids?: components["schemas"]["FlakeId"][];
+            apply_to_tag_ids?: components["schemas"]["FlakeId"][];
+            /** Format: int32 */
+            minimum_order_value?: number;
+            /** Format: date-time */
+            begins_at?: string;
+            /** Format: date-time */
+            ends_at?: string;
         };
         UpdateWebhookDto: {
             url: string;
@@ -3272,12 +3516,6 @@ export interface components {
             online_only: boolean;
             /** @description List of specific game server IDs where this command should be executed. */
             override_execute_on_gameserver_ids?: components["schemas"]["FlakeId"][] | null;
-        };
-        UpsertNavLinkRequestDto: {
-            tag_id?: components["schemas"]["FlakeId"];
-            parent_node_id?: components["schemas"]["FlakeId"];
-            /** Format: int32 */
-            order: number;
         };
         UpsertProductRequestDto: {
             /** @description The unique URL-safe identifier (slug) for the product. */
@@ -4199,15 +4437,9 @@ export interface operations {
         /** @description The custom variable data to update with field mask. */
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomVariableRequestDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomVariableRequestDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomVariableRequestDto"];
+                "application/json": components["schemas"]["UpsertCustomVariableRequestDto"];
+                "text/json": components["schemas"]["UpsertCustomVariableRequestDto"];
+                "application/*+json": components["schemas"]["UpsertCustomVariableRequestDto"];
             };
         };
         responses: {
@@ -4368,15 +4600,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomerRequestDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomerRequestDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertCustomerRequestDto"];
+                "application/json": components["schemas"]["UpsertCustomerRequestDto"];
+                "text/json": components["schemas"]["UpsertCustomerRequestDto"];
+                "application/*+json": components["schemas"]["UpsertCustomerRequestDto"];
             };
         };
         responses: {
@@ -5260,6 +5486,197 @@ export interface operations {
             };
         };
     };
+    GiftCards_GetGiftCards: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: number;
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: number;
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+                Code?: string;
+                IncludeCanceled?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GiftCards_CreateGiftCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateGiftCardDto"];
+                "text/json": components["schemas"]["CreateGiftCardDto"];
+                "application/*+json": components["schemas"]["CreateGiftCardDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GiftCards_GetGiftCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                giftCardId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GiftCards_DeleteGiftCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                giftCardId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GiftCards_UpdateGiftCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                giftCardId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateGiftCardDto"];
+                "text/json": components["schemas"]["UpdateGiftCardDto"];
+                "application/*+json": components["schemas"]["UpdateGiftCardDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
     GlobalCommands_GetGlobalCommands: {
         parameters: {
             query?: never;
@@ -5375,15 +5792,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertGlobalCommandDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertGlobalCommandDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertGlobalCommandDto"];
+                "application/json": components["schemas"]["UpsertGlobalCommandDto"];
+                "text/json": components["schemas"]["UpsertGlobalCommandDto"];
+                "application/*+json": components["schemas"]["UpsertGlobalCommandDto"];
             };
         };
         responses: {
@@ -5599,9 +6010,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": components["schemas"]["UpsertNavLinkRequestDto"];
-                "text/json": components["schemas"]["UpsertNavLinkRequestDto"];
-                "application/*+json": components["schemas"]["UpsertNavLinkRequestDto"];
+                "application/json": components["schemas"]["CreateNavLinkDto"];
+                "text/json": components["schemas"]["CreateNavLinkDto"];
+                "application/*+json": components["schemas"]["CreateNavLinkDto"];
             };
         };
         responses: {
@@ -5699,15 +6110,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertNavLinkRequestDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertNavLinkRequestDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertNavLinkRequestDto"];
+                "application/json": components["schemas"]["UpdateNavLinkDto"];
+                "text/json": components["schemas"]["UpdateNavLinkDto"];
+                "application/*+json": components["schemas"]["UpdateNavLinkDto"];
             };
         };
         responses: {
@@ -5793,6 +6198,10 @@ export interface operations {
                 order_id?: components["schemas"]["FlakeId"];
                 /** @description Customer ID */
                 customer_id?: components["schemas"]["FlakeId"];
+                /** @description Billing Email */
+                billing_email?: string;
+                /** @description Customer IP */
+                customer_ip?: string;
                 /** @description Subscription ID */
                 subscription_id?: components["schemas"]["FlakeId"];
                 /** @description Checkout ID */
@@ -6063,15 +6472,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertProductRequestDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertProductRequestDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertProductRequestDto"];
+                "application/json": components["schemas"]["UpsertProductRequestDto"];
+                "text/json": components["schemas"]["UpsertProductRequestDto"];
+                "application/*+json": components["schemas"]["UpsertProductRequestDto"];
             };
         };
         responses: {
@@ -6178,15 +6581,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["ProductPricingRegionOverrideDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["ProductPricingRegionOverrideDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["ProductPricingRegionOverrideDto"];
+                "application/json": components["schemas"]["ProductPricingRegionOverrideDto"];
+                "text/json": components["schemas"]["ProductPricingRegionOverrideDto"];
+                "application/*+json": components["schemas"]["ProductPricingRegionOverrideDto"];
             };
         };
         responses: {
@@ -6251,15 +6648,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["StorePricingRegionOverrideDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["StorePricingRegionOverrideDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["StorePricingRegionOverrideDto"];
+                "application/json": components["schemas"]["StorePricingRegionOverrideDto"];
+                "text/json": components["schemas"]["StorePricingRegionOverrideDto"];
+                "application/*+json": components["schemas"]["StorePricingRegionOverrideDto"];
             };
         };
         responses: {
@@ -6299,6 +6690,174 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProductPricingRegionGroupDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Sales_GetSales: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SaleDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Sales_CreateSale: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateSaleDto"];
+                "text/json": components["schemas"]["CreateSaleDto"];
+                "application/*+json": components["schemas"]["CreateSaleDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SaleDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Sales_GetSale: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                saleId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SaleDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Sales_DeleteSaleById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                saleId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Sales_UpdateSale: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                saleId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateSaleDto"];
+                "text/json": components["schemas"]["UpdateSaleDto"];
+                "application/*+json": components["schemas"]["UpdateSaleDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SaleDto"];
                 };
             };
             /** @description Error response */
@@ -6578,15 +7137,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertTagRequestDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertTagRequestDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpsertTagRequestDto"];
+                "application/json": components["schemas"]["UpsertTagRequestDto"];
+                "text/json": components["schemas"]["UpsertTagRequestDto"];
+                "application/*+json": components["schemas"]["UpsertTagRequestDto"];
             };
         };
         responses: {
@@ -6930,15 +7483,9 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpdateWebhookDto"];
-                "text/json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpdateWebhookDto"];
-                "application/*+json": {
-                    [key: string]: unknown;
-                } & components["schemas"]["UpdateWebhookDto"];
+                "application/json": components["schemas"]["UpdateWebhookDto"];
+                "text/json": components["schemas"]["UpdateWebhookDto"];
+                "application/*+json": components["schemas"]["UpdateWebhookDto"];
             };
         };
         responses: {
