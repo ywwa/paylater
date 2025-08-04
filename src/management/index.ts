@@ -15,6 +15,7 @@ import {
   NavlinkAPI,
   OrderAPI,
   ProductAPI,
+  SaleAPI,
   SubscriptionAPI,
   TagAPI,
   TrustAPI,
@@ -39,6 +40,7 @@ export class ManagementAPI {
   public readonly navlink: NavlinkAPI;
   public readonly order: OrderAPI;
   public readonly product: ProductAPI;
+  public readonly sale: SaleAPI;
   public readonly subscription: SubscriptionAPI;
   public readonly tag: TagAPI;
   public readonly trust: TrustAPI;
@@ -68,6 +70,7 @@ export class ManagementAPI {
     this.navlink = new NavlinkAPI(config);
     this.order = new OrderAPI(config);
     this.product = new ProductAPI(config);
+    this.sale = new SaleAPI(config);
     this.subscription = new SubscriptionAPI(config);
     this.tag = new TagAPI(config);
     this.trust = new TrustAPI(config);
@@ -90,6 +93,7 @@ export class ManagementAPI {
       this.navlink,
       this.order,
       this.product,
+      this.sale,
       this.subscription,
       this.tag,
       this.trust,

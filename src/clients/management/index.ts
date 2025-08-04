@@ -14,6 +14,7 @@ export { MarketingAPI } from "./marketing";
 export { NavlinkAPI } from "./navlink";
 export { OrderAPI } from "./order";
 export { ProductAPI } from "./product";
+export { SaleAPI } from "./sale";
 export { SubscriptionAPI } from "./subscription";
 export { TagAPI } from "./tag";
 export { TrustAPI } from "./trust";
