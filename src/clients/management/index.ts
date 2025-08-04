@@ -8,6 +8,7 @@ export { DataMigrationAPI } from "./data-migration";
 export { DeliverableAPI } from "./deliverable";
 export { DiscordAPI } from "./discord";
 export { DownloadableFileAPI } from "./downloadable-file";
+export { GiftCardAPI } from "./giftcard";
 export { GlobalCommandAPI } from "./global-command";
 export { MarketingAPI } from "./marketing";
 export { NavlinkAPI } from "./navlink";

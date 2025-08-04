@@ -9,6 +9,7 @@ import {
   DeliverableAPI,
   DiscordAPI,
   DownloadableFileAPI,
+  GiftCardAPI,
   GlobalCommandAPI,
   MarketingAPI,
   NavlinkAPI,
@@ -32,6 +33,7 @@ export class ManagementAPI {
   public readonly deliverable: DeliverableAPI;
   public readonly discord: DiscordAPI;
   public readonly downloadableFile: DownloadableFileAPI;
+  public readonly giftCard: GiftCardAPI;
   public readonly globalCommand: GlobalCommandAPI;
   public readonly marketing: MarketingAPI;
   public readonly navlink: NavlinkAPI;
@@ -60,6 +62,7 @@ export class ManagementAPI {
     this.deliverable = new DeliverableAPI(config);
     this.discord = new DiscordAPI(config);
     this.downloadableFile = new DownloadableFileAPI(config);
+    this.giftCard = new GiftCardAPI(config);
     this.globalCommand = new GlobalCommandAPI(config);
     this.marketing = new MarketingAPI(config);
     this.navlink = new NavlinkAPI(config);
@@ -81,6 +84,7 @@ export class ManagementAPI {
       this.deliverable,
       this.discord,
       this.downloadableFile,
+      this.giftCard,
       this.globalCommand,
       this.marketing,
       this.navlink,
