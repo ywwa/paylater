@@ -5,6 +5,9 @@ import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 type GetCustomerOptions = OptionsType<
   Storefront.operations["StorefrontCustomer_GetStorefrontCustomer"]
 >;
+type GetStorefrontGiftCard = OptionsType<
+  Storefront.operations["StorefrontCustomer_GetStorefrontGiftCard"]
+>;
 
 export class CustomerAPI {
   private client: APIClient<Storefront.paths>;
@@ -34,5 +37,12 @@ export class CustomerAPI {
    */
   async getCustomer(options?: GetCustomerOptions) {
     return this.client.get("/v1/store/customer", options ?? {});
+  }
+
+  /**
+   * Lookup a giftcard by the code
+   */
+  async getStorefrontGiftCard(options: GetStorefrontGiftCard) {
+    return this.client.get("/v1/store/customer/giftcards/lookup/{code}", options);
   }
 }
