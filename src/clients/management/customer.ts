@@ -23,6 +23,18 @@ type BulkCreateCustomersOptions = OptionsType<
   Management.operations["Customers_BulkCreateCustomers"]
 >;
 
+type GetDeliveryItemsOptions = OptionsType<
+  Management.operations["RootCustomersCommandDeliveryControllerBase_GetDeliveryItems"]
+>;
+
+type AssignDeliveryItemOptions = OptionsType<
+  Management.operations["RootCustomersCommandDeliveryControllerBase_AssignDeliveryItem"]
+>;
+
+type RevokeDeliveryItemOptions = OptionsType<
+  Management.operations["RootCustomersCommandDeliveryControllerBase_RevokeDeliveryItem"]
+>;
+
 export class CustomerAPI {
   private client: APIClient<Management.paths>;
 
@@ -76,5 +88,35 @@ export class CustomerAPI {
 
   async bulkCreateCustomers(options: BulkCreateCustomersOptions) {
     return this.client.post("/v1/stores/{storeId}/customers/bulk", options);
+  }
+
+  /**
+   * Get delivery items associated with a customer
+   * @description Retrieves delivery items associated with a customer
+   */
+  async getDeliveryItems(options: GetDeliveryItemsOptions) {
+    return this.client.get("/v1/stores/{storeId}/customers/{customerId}/command-delivery", options);
+  }
+
+  /**
+   * Assign a delivery item to a customer
+   * @description Allows you to assign a delivery item to a customer
+   */
+  async assignDeliveryItem(options: AssignDeliveryItemOptions) {
+    return this.client.post(
+      "/v1/stores/{storeId}/customers/{customerId}/command-delivery",
+      options,
+    );
+  }
+
+  /**
+   * Revoke a delivery item for a customer
+   * @description Allows you to revoke a delivery item associated with a customer
+   */
+  async revokeDeliveryItem(options: RevokeDeliveryItemOptions) {
+    return this.client.delete(
+      "/v1/stores/{storeId}/customers/{customerId}/command-delivery/{deliveryItemId}",
+      options,
+    );
   }
 }

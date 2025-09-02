@@ -2,6 +2,7 @@ import {
   AffiliateLinkAPI,
   BanAPI,
   CheckoutAPI,
+  CommandDeliveryAPI,
   CouponAPI,
   CustomerAPI,
   CustomVariableAPI,
@@ -9,6 +10,7 @@ import {
   DeliverableAPI,
   DiscordAPI,
   DownloadableFileAPI,
+  GameServerAPI,
   GiftCardAPI,
   GlobalCommandAPI,
   MarketingAPI,
@@ -27,6 +29,7 @@ export class ManagementAPI {
   public readonly affiliateLink: AffiliateLinkAPI;
   public readonly ban: BanAPI;
   public readonly checkout: CheckoutAPI;
+  public readonly commandDelivery: CommandDeliveryAPI;
   public readonly coupon: CouponAPI;
   public readonly customVariable: CustomVariableAPI;
   public readonly customer: CustomerAPI;
@@ -34,6 +37,7 @@ export class ManagementAPI {
   public readonly deliverable: DeliverableAPI;
   public readonly discord: DiscordAPI;
   public readonly downloadableFile: DownloadableFileAPI;
+  public readonly gameServer: GameServerAPI;
   public readonly giftCard: GiftCardAPI;
   public readonly globalCommand: GlobalCommandAPI;
   public readonly marketing: MarketingAPI;
@@ -57,6 +61,7 @@ export class ManagementAPI {
     this.affiliateLink = new AffiliateLinkAPI(config);
     this.ban = new BanAPI(config);
     this.checkout = new CheckoutAPI(config);
+    this.commandDelivery = new CommandDeliveryAPI(config);
     this.coupon = new CouponAPI(config);
     this.customVariable = new CustomVariableAPI(config);
     this.customer = new CustomerAPI(config);
@@ -64,6 +69,7 @@ export class ManagementAPI {
     this.deliverable = new DeliverableAPI(config);
     this.discord = new DiscordAPI(config);
     this.downloadableFile = new DownloadableFileAPI(config);
+    this.gameServer = new GameServerAPI(config);
     this.giftCard = new GiftCardAPI(config);
     this.globalCommand = new GlobalCommandAPI(config);
     this.marketing = new MarketingAPI(config);
@@ -80,6 +86,7 @@ export class ManagementAPI {
       this.affiliateLink,
       this.ban,
       this.checkout,
+      this.commandDelivery,
       this.coupon,
       this.customVariable,
       this.customer,
@@ -87,6 +94,7 @@ export class ManagementAPI {
       this.deliverable,
       this.discord,
       this.downloadableFile,
+      this.gameServer,
       this.giftCard,
       this.globalCommand,
       this.marketing,

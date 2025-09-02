@@ -8,6 +8,9 @@ type GetCustomerOptions = OptionsType<
 type GetStorefrontGiftCard = OptionsType<
   Storefront.operations["StorefrontCustomer_GetStorefrontGiftCard"]
 >;
+type RootGetStorefrontCustomerDeliveryItemsOptions = OptionsType<
+  Storefront.operations["StorefrontCustomer_RootGetStorefrontCustomerDeliveryItems"]
+>;
 
 export class CustomerAPI {
   private client: APIClient<Storefront.paths>;
@@ -44,5 +47,12 @@ export class CustomerAPI {
    */
   async getStorefrontGiftCard(options: GetStorefrontGiftCard) {
     return this.client.get("/v1/store/customer/giftcards/lookup/{code}", options);
+  }
+
+  /**
+   * Get storefront customer delivery items
+   */
+  async getStorefrontCustomerDeliveryItems(options: RootGetStorefrontCustomerDeliveryItemsOptions) {
+    return this.client.get("/v1/store/customer/command-delivery", options);
   }
 }

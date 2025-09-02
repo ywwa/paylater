@@ -100,6 +100,106 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/orders/{orderId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get delivery items associated with an order
+         * @description Retrieves all delivery items associated with a specific order.
+         */
+        get: operations["RootOrdersCommandDelivery_GetOrderDeliveryItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get delivery items associated with a customer
+         * @description Retrieves delivery items associated with a customer
+         */
+        get: operations["RootCustomersCommandDeliveryControllerBase_GetDeliveryItems"];
+        put?: never;
+        /**
+         * Assign a delivery item to a customer
+         * @description Allows you to assign a delivery item to a customer
+         */
+        post: operations["RootCustomersCommandDeliveryControllerBase_AssignDeliveryItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/command-delivery/{deliveryItemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke a delivery item for a customer
+         * @description Allows you to revoke a delivery item associated with a customer
+         */
+        delete: operations["RootCustomersCommandDeliveryControllerBase_RevokeDeliveryItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Assign delivery items in bulk
+         * @description Allows you to assign multiple delivery items for multiple customers in bulk
+         */
+        post: operations["RootCommandDelivery_AssignDeliveryItemsBulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/command-delivery/inventory-item/update-product-versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["RootCommandDelivery_UpdateInventoryItemProductVersion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stores/{storeId}/coupons": {
         parameters: {
             query?: never;
@@ -554,6 +654,60 @@ export interface paths {
         put?: never;
         post?: never;
         delete: operations["ProductsDownloadableFile_DeleteDownloadableFile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/gameservers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Game Servers for a store */
+        get: operations["GameServers_GetGameServers"];
+        put?: never;
+        /** Create a new Game Server for a store */
+        post: operations["GameServers_CreateGameServer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/gameservers/{gameServerId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a Game Server by ID for a store */
+        get: operations["GameServers_GetGameServer"];
+        put?: never;
+        post?: never;
+        /** Delete a Game Server by ID for a store */
+        delete: operations["GameServers_DeleteGameServer"];
+        options?: never;
+        head?: never;
+        /** Update a Game Server By ID for a store */
+        patch: operations["GameServers_UpdateGameServer"];
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/gameservers/{gameServerId}/reset-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reset the API Key Token for a Game Server for a store */
+        post: operations["GameServers_ResetGameServerToken"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1367,6 +1521,24 @@ export interface components {
         CheckForBanIDByIdentitiesRequestDto: {
             identities: components["schemas"]["BanIdentityDto"][];
         };
+        CommandAttemptDto: {
+            id: components["schemas"]["FlakeId"];
+            inventory_item_id: components["schemas"]["FlakeId"];
+            gameserver_id: components["schemas"]["FlakeId"];
+            steam_id?: components["schemas"]["SteamId"];
+            minecraft_uuid?: string | null;
+            customer_name?: string | null;
+            command_stage: string;
+            command: string;
+            online_only: boolean;
+            rerun: boolean;
+            /** Format: date-time */
+            queued_at: string;
+            /** Format: date-time */
+            executed_at?: string | null;
+            /** Format: date-time */
+            unqueued_at?: string | null;
+        };
         /**
          * @description Specifies the type of discount applied by a coupon.
          * @enum {string}
@@ -1588,6 +1760,10 @@ export interface components {
         CreateDownloadableFileDownloadUrlResponseDto: {
             download_signed_url: string;
         };
+        CreateGameServerDto: {
+            name: string;
+            enabled: boolean;
+        };
         CreateGiftCardDto: {
             enabled: boolean;
             code: string;
@@ -1742,11 +1918,7 @@ export interface components {
             id: components["schemas"]["FlakeId"];
             store_id: components["schemas"]["FlakeId"];
             profile?: components["schemas"]["GenericProfileDto"];
-            /**
-             * @description The customer's 64-bit Steam ID, if they have linked their Steam account.
-             * @example 76561198045784099
-             */
-            steam_id?: string | null;
+            steam_id?: components["schemas"]["SteamId"];
             steam?: components["schemas"]["SteamProfileDto"];
             /**
              * @description The customer's Minecraft UUID, if they have linked their Minecraft account.
@@ -1835,6 +2007,137 @@ export interface components {
             total_entities_migrated: number;
             started_by: components["schemas"]["ActorDto"];
         };
+        DeliveryItemAssignmentBulkDto: {
+            customer_id: components["schemas"]["FlakeId"];
+            product_version_id?: components["schemas"]["FlakeId"];
+            execute_on_gameserver_id?: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description Quantity of products to assign.
+             */
+            quantity?: number | null;
+            /**
+             * Format: date-time
+             * @description Override expiry date for the delivery item.
+             */
+            override_expires_at?: string | null;
+            /** @description Skip command execution when assigning the item. */
+            skip_commands?: boolean | null;
+            /** @description Custom variables for the assignment. */
+            custom_variables?: {
+                [key: string]: string;
+            } | null;
+        };
+        DeliveryItemAssignmentDto: {
+            product_id?: components["schemas"]["FlakeId"];
+            product_version_id?: components["schemas"]["FlakeId"];
+            execute_on_gameserver_id?: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description Quantity of products to assign.
+             */
+            quantity?: number | null;
+            /**
+             * Format: date-time
+             * @description Override expiry date for the delivery item.
+             */
+            override_expires_at?: string | null;
+            /** @description Skip command execution when assigning the item. */
+            skip_commands?: boolean | null;
+            /** @description Custom variables for the assignment. */
+            custom_variables?: {
+                [key: string]: string;
+            } | null;
+        };
+        /** @description Represents a delivery item assigned to a customer */
+        DeliveryItemDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            customer: components["schemas"]["CustomerDto"];
+            order_customer_id?: components["schemas"]["FlakeId"];
+            order_customer?: components["schemas"]["CustomerDto"];
+            checkout_id?: components["schemas"]["FlakeId"];
+            checkout_line_id?: components["schemas"]["FlakeId"];
+            order_id?: components["schemas"]["FlakeId"];
+            order_line_id?: components["schemas"]["FlakeId"];
+            subscription_id?: components["schemas"]["FlakeId"];
+            execute_on_gameserver_id?: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description The index of the item when multiple quantities were assigned
+             */
+            quantity_index?: number | null;
+            product: components["schemas"]["DeliveryItemProductDto"];
+            state: components["schemas"]["DeliveryItemStateDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the item was added
+             */
+            added_at: string;
+            added_by?: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the item became active
+             */
+            active_at?: string | null;
+            /** @description Indicates whether the delivery item can expire */
+            expirable: boolean;
+            /**
+             * Format: date-time
+             * @description The date and time when the item expires naturally
+             */
+            expires_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The override expiry date for the delivery item
+             */
+            override_expires_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the item was removed
+             */
+            removed_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the item was revoked
+             */
+            revoked_at?: string | null;
+            /** @description The reason for revoking the delivery item */
+            revoke_reason?: string | null;
+            revoked_by?: components["schemas"]["ActorDto"];
+            /** @description The command execution attempts for this delivery item */
+            command_attempts: components["schemas"]["CommandAttemptDto"][];
+            /** @description Indicates whether command execution should be skipped for this item */
+            skip_commands: boolean;
+            /** @description Custom variables associated with the delivery item */
+            custom_variables: {
+                [key: string]: string;
+            };
+            /** @description Indicates whether the item was given as a gift */
+            gift: boolean;
+        };
+        /** @description Represents the product information for a delivery item */
+        DeliveryItemProductDto: {
+            id: components["schemas"]["FlakeId"];
+            /**
+             * @description The name of the product
+             * @example Premium Membership
+             */
+            name: string;
+            /**
+             * @description The URL-friendly slug of the product
+             * @example premium-membership
+             */
+            slug: string;
+            /**
+             * @description The version identifier of the product
+             * @example v2.1.0
+             */
+            version_id: string;
+        };
+        /** @enum {string} */
+        DeliveryItemStateDto: "usable" | "active" | "used" | "revoked" | "renewed";
         DiscordActionDto: {
             id: components["schemas"]["FlakeId"];
             store_id: components["schemas"]["FlakeId"];
@@ -1898,6 +2201,45 @@ export interface components {
          * @example 411486491630370816
          */
         FlakeId: string;
+        /** @description Represents a game server in the PayNow system with authentication tokens and linking information. */
+        GameServerDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description The display name of the game server. */
+            name: string;
+            /** @description Indicates whether the game server is currently enabled. */
+            enabled: boolean;
+            /** @description The authentication token used by the game server to access the PayNow API. */
+            token?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the authentication token was last reset, if applicable.
+             */
+            token_reset_at?: string | null;
+            linked_to: components["schemas"]["GameServerLinkDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the game server was created in the system.
+             */
+            created_at: string;
+            created_by: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the game server was last updated, if applicable.
+             */
+            updated_at?: string | null;
+            updated_by: components["schemas"]["ActorDto"];
+        };
+        GameServerLinkDto: {
+            ip: string;
+            hostname: string;
+            platform: string;
+            version: string;
+            /** Format: date-time */
+            saved_at: string;
+            /** Format: date-time */
+            last_fetched_commands_at?: string | null;
+        };
         /** @description Represents a generic platform profile for a customer. */
         GenericProfileDto: {
             /** @description The platform-specific identifier for the profile. */
@@ -3037,13 +3379,15 @@ export interface components {
             file_content_type: string;
             description?: string | null;
         };
+        /**
+         * Format: steam-id
+         * @description A 64-bit Steam account identifier. Accepts string or numeric format.
+         * @example 76561197960287930
+         */
+        SteamId: string;
         /** @description Represents a Steam profile for a customer. */
         SteamProfileDto: {
-            /**
-             * @description The 64-bit Steam ID of the user.
-             * @example 76561198045784099
-             */
-            id: string;
+            id: components["schemas"]["SteamId"];
             /** @description The display name of the user on Steam. */
             name: string;
             /** @description The URL to the user's Steam avatar image. */
@@ -3417,6 +3761,10 @@ export interface components {
             /** Format: date-time */
             expires_at?: string;
         };
+        UpdateGameServerDto: {
+            name?: string;
+            enabled?: boolean;
+        };
         UpdateGiftCardDto: {
             enabled?: boolean;
             code?: string;
@@ -3427,6 +3775,14 @@ export interface components {
             usable_at?: string;
             /** Format: date-time */
             expires_at?: string;
+        };
+        UpdateInventoryItemProductVersionRequestDto: {
+            product_version_id: components["schemas"]["FlakeId"];
+            product_id: components["schemas"]["FlakeId"];
+        };
+        UpdateInventoryItemProductVersionResponseDto: {
+            /** Format: int32 */
+            updated_count: number;
         };
         UpdateNavLinkDto: {
             tag_id?: components["schemas"]["FlakeId"];
@@ -3492,8 +3848,7 @@ export interface components {
             options: components["schemas"]["CustomVariableOptionRequestDto"][];
         };
         UpsertCustomerRequestDto: {
-            /** @description The Steam platform identifier (Steam ID 64) for the customer. */
-            steam_id?: string | null;
+            steam_id?: components["schemas"]["SteamId"];
             /** @description The Minecraft UUID for the customer. */
             minecraft_uuid?: string | null;
             minecraft_platform?: components["schemas"]["CustomerMinecraftPlatform"];
@@ -3829,13 +4184,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -4080,6 +4435,234 @@ export interface operations {
             };
         };
     };
+    RootOrdersCommandDelivery_GetOrderDeliveryItems: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the order to retrieve delivery items from. */
+                orderId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    RootCustomersCommandDeliveryControllerBase_GetDeliveryItems: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    RootCustomersCommandDeliveryControllerBase_AssignDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "text/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    RootCustomersCommandDeliveryControllerBase_RevokeDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+                deliveryItemId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    RootCommandDelivery_AssignDeliveryItemsBulk: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "text/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    RootCommandDelivery_UpdateInventoryItemProductVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
+                "text/json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
+                "application/*+json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateInventoryItemProductVersionResponseDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
     StoreCoupons_GetCouponsForStore: {
         parameters: {
             query?: {
@@ -4090,13 +4673,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -4473,13 +5056,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -4698,7 +5281,7 @@ export interface operations {
                 /** @description Looks up customer by PayNow Customer ID. */
                 id?: string;
                 /** @description Looks up customer by Steam ID 64. */
-                steam_id?: string;
+                steam_id?: components["schemas"]["SteamId"];
                 /** @description Looks up customer by a Minecraft UUID. */
                 minecraft_uuid?: string;
                 /** @description Looks up customer by an Xbox XUID. */
@@ -4788,13 +5371,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -5486,6 +6069,206 @@ export interface operations {
             };
         };
     };
+    GameServers_GetGameServers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameServerDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServers_CreateGameServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateGameServerDto"];
+                "text/json": components["schemas"]["CreateGameServerDto"];
+                "application/*+json": components["schemas"]["CreateGameServerDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameServerDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServers_GetGameServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                gameServerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameServerDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServers_DeleteGameServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                gameServerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServers_UpdateGameServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                gameServerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateGameServerDto"];
+                "text/json": components["schemas"]["UpdateGameServerDto"];
+                "application/*+json": components["schemas"]["UpdateGameServerDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameServerDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServers_ResetGameServerToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                gameServerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameServerDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
     GiftCards_GetGiftCards: {
         parameters: {
             query?: {
@@ -5496,19 +6279,21 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
                 asc?: boolean;
-                Code?: string;
-                IncludeCanceled?: boolean;
+                /** @description A gift card code to filter by. */
+                code?: string;
+                /** @description Should canceled gift cards be included in the response? */
+                include_canceled?: boolean;
             };
             header?: never;
             path: {
@@ -6181,13 +6966,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -6888,13 +7673,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
@@ -7302,13 +8087,13 @@ export interface operations {
                  *     Used for forward pagination through results.
                  * @example null
                  */
-                after?: number;
+                after?: components["schemas"]["FlakeId"];
                 /**
                  * @description Returns items before the specified ID.
                  *     Used for backward pagination through results.
                  * @example null
                  */
-                before?: number;
+                before?: components["schemas"]["FlakeId"];
                 /** @description Determines the sort order of returned items.
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */

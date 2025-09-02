@@ -124,6 +124,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/store/customer/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get storefront customer delivery items */
+        get: operations["StorefrontCustomer_RootGetStorefrontCustomerDeliveryItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stores/{storeId}/product_versions/discord_actions": {
         parameters: {
             query?: never;
@@ -297,7 +314,7 @@ export interface components {
             /** @description The URL to the product image */
             image_url?: string | null;
             selected_gameserver_id?: components["schemas"]["FlakeId"];
-            selected_gameserver?: components["schemas"]["GameServerDto"];
+            selected_gameserver?: components["schemas"]["StorefrontGameServerDto"];
             pricing: components["schemas"]["StorefrontProductPricingDetailsDto"];
             /** @description Selected custom variables for this cart line. */
             custom_variables: components["schemas"]["CartLineCustomVariableDto"][];
@@ -386,11 +403,7 @@ export interface components {
             id: components["schemas"]["FlakeId"];
             store_id: components["schemas"]["FlakeId"];
             profile?: components["schemas"]["GenericProfileDto"];
-            /**
-             * @description The customer's 64-bit Steam ID, if they have linked their Steam account.
-             * @example 76561198045784099
-             */
-            steam_id?: string | null;
+            steam_id?: components["schemas"]["SteamId"];
             steam?: components["schemas"]["SteamProfileDto"];
             /**
              * @description The customer's Minecraft UUID, if they have linked their Minecraft account.
@@ -439,19 +452,32 @@ export interface components {
          * @enum {string}
          */
         CustomerProfilePlatform: "invalid" | "steam" | "minecraft" | "paynow_name";
+        /** @description Represents the product information for a delivery item */
+        DeliveryItemProductDto: {
+            id: components["schemas"]["FlakeId"];
+            /**
+             * @description The name of the product
+             * @example Premium Membership
+             */
+            name: string;
+            /**
+             * @description The URL-friendly slug of the product
+             * @example premium-membership
+             */
+            slug: string;
+            /**
+             * @description The version identifier of the product
+             * @example v2.1.0
+             */
+            version_id: string;
+        };
+        /** @enum {string} */
+        DeliveryItemStateDto: "usable" | "active" | "used" | "revoked" | "renewed";
         /**
          * Format: flake-id
          * @example 411486491630370816
          */
         FlakeId: string;
-        /** @description Represents a game server */
-        GameServerDto: {
-            id: components["schemas"]["FlakeId"];
-            /** @description The name of the game server */
-            name: string;
-            /** @description Represents if the game server is active */
-            enabled: boolean;
-        };
         /** @description Represents a generic platform profile for a customer. */
         GenericProfileDto: {
             /** @description The platform-specific identifier for the profile. */
@@ -542,13 +568,15 @@ export interface components {
         };
         /** @enum {string} */
         SaleDiscountType: "percent" | "amount";
+        /**
+         * Format: steam-id
+         * @description A 64-bit Steam account identifier. Accepts string or numeric format.
+         * @example 76561197960287930
+         */
+        SteamId: string;
         /** @description Represents a Steam profile for a customer. */
         SteamProfileDto: {
-            /**
-             * @description The 64-bit Steam ID of the user.
-             * @example 76561198045784099
-             */
-            id: string;
+            id: components["schemas"]["SteamId"];
             /** @description The display name of the user on Steam. */
             name: string;
             /** @description The URL to the user's Steam avatar image. */
@@ -590,6 +618,68 @@ export interface components {
              *     Lower numbers appear first.
              */
             sort_order: number;
+        };
+        /** @description Represents a delivery item assigned to a customer */
+        StorefrontDeliveryItemDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            order_id?: components["schemas"]["FlakeId"];
+            order_line_id?: components["schemas"]["FlakeId"];
+            subscription_id?: components["schemas"]["FlakeId"];
+            execute_on_gameserver_id?: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description The index of the item when multiple quantities were assigned
+             */
+            quantity_index?: number | null;
+            product: components["schemas"]["DeliveryItemProductDto"];
+            state: components["schemas"]["DeliveryItemStateDto"];
+            /** @description Indicates whether the delivery item can expire */
+            expirable: boolean;
+            /** @description Indicates whether the item was given as a gift */
+            gift: boolean;
+            /**
+             * Format: date-time
+             * @description The date and time when the item was added
+             */
+            added_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when the item became active
+             */
+            active_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the item expires naturally
+             */
+            expires_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The override expiry date for the delivery item
+             */
+            override_expires_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the item was removed
+             */
+            removed_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the item was revoked
+             */
+            revoked_at?: string | null;
+            /** @description The reason for revoking the delivery item */
+            revoke_reason?: string | null;
+        };
+        /** @description Represents a simplified view of a game server for storefront display purposes. */
+        StorefrontGameServerDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description The display name of the game server. */
+            name: string;
+            /** @description Indicates whether the game server is currently enabled. */
+            enabled: boolean;
         };
         StorefrontGiftCardDto: {
             code: string;
@@ -1230,6 +1320,54 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StorefrontGiftCardDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    StorefrontCustomer_RootGetStorefrontCustomerDeliveryItems: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StorefrontDeliveryItemDto"][];
                 };
             };
             /** @description Error response */

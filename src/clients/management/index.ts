@@ -1,6 +1,7 @@
 export { AffiliateLinkAPI } from "./affiliate-link";
 export { BanAPI } from "./ban";
 export { CheckoutAPI } from "./checkout";
+export { CommandDeliveryAPI } from "./command-delivery";
 export { CouponAPI } from "./coupon";
 export { CustomVariableAPI } from "./custom-variable";
 export { CustomerAPI } from "./customer";
@@ -8,6 +9,7 @@ export { DataMigrationAPI } from "./data-migration";
 export { DeliverableAPI } from "./deliverable";
 export { DiscordAPI } from "./discord";
 export { DownloadableFileAPI } from "./downloadable-file";
+export { GameServerAPI } from "./gameserver";
 export { GiftCardAPI } from "./giftcard";
 export { GlobalCommandAPI } from "./global-command";
 export { MarketingAPI } from "./marketing";

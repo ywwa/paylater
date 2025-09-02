@@ -5,6 +5,9 @@ import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 type GetOrdersOptions = OptionsType<Management.operations["Orders_GetOrders"]>;
 type GetOrderByIdOptions = OptionsType<Management.operations["Orders_GetOrderById"]>;
 type RefundOrderOptions = OptionsType<Management.operations["Orders_RefundOrder"]>;
+type GetOrderDeliveryItemsOptions = OptionsType<
+  Management.operations["RootOrdersCommandDelivery_GetOrderDeliveryItems"]
+>;
 
 export class OrderAPI {
   private client: APIClient<Management.paths>;
@@ -39,5 +42,13 @@ export class OrderAPI {
 
   async refundOrder(options: RefundOrderOptions) {
     return this.client.post("/v1/stores/{storeId}/orders/{orderId}/refund", options);
+  }
+
+  /**
+   * Get delivery items associated with an order
+   * @description Retrieves all delivery items associated with a specific order.
+   */
+  async getOrderDeliveryItems(options: GetOrderDeliveryItemsOptions) {
+    return this.client.get("/v1/stores/{storeId}/orders/{orderId}/command-delivery", options);
   }
 }
