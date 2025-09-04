@@ -17,15 +17,15 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./storefront": {
-      "import": "./dist/storefront/index.js",
-      "require": "./dist/storefront/index.cjs"
+      "require": "./dist/index.js"
     },
     "./management": {
       "import": "./dist/management/index.js",
-      "require": "./dist/management/index.cjs"
+      "require": "./dist/management/index.js"
+    },
+    "./storefront": {
+      "import": "./dist/storefront/index.js",
+      "require": "./dist/storefront/index.js"
     }
   },
   "scripts": {
