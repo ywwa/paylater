@@ -4684,6 +4684,12 @@ export interface operations {
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
                 asc?: boolean;
+                /** @description Filters coupons by the ID of the creator. */
+                created_by_id?: components["schemas"]["FlakeId"];
+                /** @description Exclude auto-generated coupons from the results when set to true. */
+                exclude_generated?: boolean;
+                /** @description Exclude inactive coupons from the results when set to true. */
+                exclude_inactive?: boolean;
             };
             header?: never;
             path: {
