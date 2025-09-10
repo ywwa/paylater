@@ -1297,6 +1297,84 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/customers/{customerId}/trial-eligibility/overrides": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get trial eligibility overrides
+         * @description Retrieves all trial eligibility overrides for the specified customer.
+         */
+        get: operations["CustomersTrialEligibility_GetOverrides"];
+        put?: never;
+        /**
+         * Create trial eligibility override
+         * @description Creates a new trial eligibility override for the specified customer.
+         */
+        post: operations["CustomersTrialEligibility_CreateOverride"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/trial-eligibility/overrides/{trialEligibilityOverrideId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete trial eligibility override
+         * @description Deletes an existing trial eligibility override.
+         */
+        delete: operations["CustomersTrialEligibility_DeleteOverride"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/trials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get trials for a store */
+        get: operations["Trials_GetTrials"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/trials/{trialId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a trial by ID for a store */
+        get: operations["Trials_GetTrial"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stores/{storeId}/trust/onboarding/status": {
         parameters: {
             query?: never;
@@ -1646,6 +1724,8 @@ export interface components {
             product_id: components["schemas"]["FlakeId"];
             /** @description Determines whether this line should create a subscription */
             subscription: boolean;
+            /** @description Indicates whether the product should be trialed */
+            trial?: boolean | null;
             gift_to?: components["schemas"]["CustomerPlatformAccountDto"];
             gift_to_customer_id?: components["schemas"]["FlakeId"];
             /**
@@ -1671,6 +1751,8 @@ export interface components {
         CreateCheckoutSessionLineManagementDto: {
             /** @description Determines whether this line should create a subscription */
             subscription: boolean;
+            /** @description Indicates whether the product should be trialed */
+            trial?: boolean | null;
             gift_to?: components["schemas"]["CustomerPlatformAccountDto"];
             gift_to_customer_id?: components["schemas"]["FlakeId"];
             /**
@@ -1801,6 +1883,12 @@ export interface components {
             begins_at: string;
             /** Format: date-time */
             ends_at?: string;
+        };
+        CreateTrialEligibilityOverrideDto: {
+            product_id: components["schemas"]["FlakeId"];
+            /** Format: date-time */
+            expires_at: string;
+            note?: string;
         };
         CreateWebhookDto: {
             url: string;
@@ -2062,6 +2150,7 @@ export interface components {
             order_id?: components["schemas"]["FlakeId"];
             order_line_id?: components["schemas"]["FlakeId"];
             subscription_id?: components["schemas"]["FlakeId"];
+            trial_id?: components["schemas"]["FlakeId"];
             execute_on_gameserver_id?: components["schemas"]["FlakeId"];
             /**
              * Format: int32
@@ -2368,6 +2457,7 @@ export interface components {
              */
             subscription_interval_value?: number | null;
             subscription_interval_scale?: components["schemas"]["ProductSubscriptionIntervalScale"];
+            trial?: components["schemas"]["UpsertProductTrialConfigurationDto"];
             /** @description Indicates whether automatic removal is enabled. */
             remove_after_enabled?: boolean | null;
             /**
@@ -2820,7 +2910,7 @@ export interface components {
          * @description Defines the stages at which product commands can be executed.
          * @enum {string}
          */
-        ProductCommandStage: "invalid" | "on_purchase" | "on_expire" | "on_refund" | "on_renew" | "on_chargeback";
+        ProductCommandStage: "invalid" | "on_purchase" | "on_expire" | "on_refund" | "on_renew" | "on_chargeback" | "on_trial_start" | "on_trial_expire";
         ProductDeliverableActionsDto: {
             /** @description Value indicating whether to grant a giftcard with the product with the subtotal amount. */
             grant_giftcard: boolean;
@@ -2879,6 +2969,7 @@ export interface components {
              */
             subscription_interval_value: number;
             subscription_interval_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
+            trial: components["schemas"]["ProductTrialConfigurationDto"];
             /** @description Indicates whether automatic removal is enabled. */
             remove_after_enabled: boolean;
             /**
@@ -3050,6 +3141,39 @@ export interface components {
          * @enum {string}
          */
         ProductTaxCode: "unknown" | "digital_goods_subscription" | "digital_goods_permanent" | "saas" | "downloaded_software" | "digital_goods_subscription_gaming" | "digital_goods_permanent_gaming";
+        /** @description Represents the configuration for trials of a product */
+        ProductTrialConfigurationDto: {
+            /** @description Indicates if trials should be enabled for the product. */
+            enabled: boolean;
+            /**
+             * Format: int32
+             * @description The trial period value.
+             */
+            period_value: number;
+            period_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
+            /** @description Indicates if the trial should be revoked immediately when canceled or at the end of the trial. */
+            revoke_immediately_when_canceled: boolean;
+            /** @description Restricts trials to customers who have no orders within the lookback period.
+             *     When enabled, customers with recent orders will be ineligible for trials. */
+            new_customers_only: boolean;
+            /**
+             * Format: int32
+             * @description The lookback period value for determining if a customer is "new".
+             *     Only used when new_customers_only is enabled.
+             */
+            new_customer_order_lookback_value: number;
+            new_customer_order_lookback_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
+            /** @description Allows customers to trial again after a cooldown period following their previous trial.
+             *     When disabled, customers can only trial once and never become eligible again. */
+            allow_repeat_trials: boolean;
+            /**
+             * Format: int32
+             * @description The cooldown period value before a customer becomes eligible for another trial.
+             *     Only used when allow_repeat_trial is enabled.
+             */
+            repeat_trial_cooldown_value: number;
+            repeat_trial_cooldown_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
+        };
         /** @description Represents the store-level configuration for abandoned checkout settings. */
         PurchaseFollowUpStoreConfigurationDto: {
             store_id: components["schemas"]["FlakeId"];
@@ -3610,6 +3734,90 @@ export interface components {
             updated_at?: string | null;
             updated_by?: components["schemas"]["ActorDto"];
         };
+        TrialDto: {
+            id: components["schemas"]["FlakeId"];
+            /** @description The human-readable formatted version of the trial identifier. */
+            readonly pretty_id: string;
+            store_id: components["schemas"]["FlakeId"];
+            checkout_id?: components["schemas"]["FlakeId"];
+            checkout_line_id?: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            customer: components["schemas"]["CustomerDto"];
+            product_id: components["schemas"]["FlakeId"];
+            product_version_id: components["schemas"]["FlakeId"];
+            /** @description The name of the product being trialed. */
+            product_name: string;
+            /** @description The URL of the product image, if available. */
+            product_image_url?: string | null;
+            /**
+             * Format: int32
+             * @description The duration value of the trial period.
+             */
+            period_value: number;
+            /** @description The timescale unit for the trial period (e.g., "days", "weeks", "months"). */
+            period_scale: string;
+            /**
+             * Format: date-time
+             * @description The date and time when the trial period starts, if applicable.
+             */
+            starts_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when the trial period ends, if applicable.
+             */
+            ends_at?: string | null;
+            status: components["schemas"]["TrialStatusDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the trial was created.
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when the trial was canceled, if applicable.
+             */
+            canceled_at?: string | null;
+            canceled_by?: components["schemas"]["ActorDto"];
+        };
+        TrialEligibilityOverrideDto: {
+            id: components["schemas"]["FlakeId"];
+            /** @description The human-readable formatted version of the override identifier. */
+            readonly pretty_id: string;
+            store_id: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            product_id: components["schemas"]["FlakeId"];
+            /** @description The name of the product associated with this override. */
+            product_name: string;
+            /** @description The URL of the product image, if available. */
+            product_image_url?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this override was created.
+             */
+            created_at: string;
+            created_by: components["schemas"]["ActorDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when this override expires and is no longer valid.
+             */
+            expires_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when this override was used to start a trial, if applicable.
+             */
+            used_at?: string | null;
+            used_on_trial_id?: components["schemas"]["FlakeId"];
+            /** @description An optional note or comment about this override. */
+            note?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this override was deleted, if applicable.
+             */
+            deleted_at?: string | null;
+            deleted_by?: components["schemas"]["ActorDto"];
+        };
+        /** @enum {string} */
+        TrialStatusDto: "created" | "active" | "canceled" | "completed";
         TrustStoreOnboardingDto: {
             store_id: components["schemas"]["FlakeId"];
             user_id: components["schemas"]["FlakeId"];
@@ -3814,6 +4022,12 @@ export interface components {
             /** Format: date-time */
             ends_at?: string;
         };
+        UpdateTrialEligibilityOverrideDto: {
+            product_id?: components["schemas"]["FlakeId"];
+            /** Format: date-time */
+            expires_at?: string;
+            note?: string;
+        };
         UpdateWebhookDto: {
             url: string;
             reset_secret: boolean;
@@ -3898,6 +4112,7 @@ export interface components {
              */
             subscription_interval_value?: number | null;
             subscription_interval_scale?: components["schemas"]["ProductSubscriptionIntervalScale"];
+            trial?: components["schemas"]["UpsertProductTrialConfigurationDto"];
             /** @description Indicates whether automatic removal is enabled. */
             remove_after_enabled?: boolean | null;
             /**
@@ -3952,6 +4167,39 @@ export interface components {
             /** @description The IDs of associated custom variables. */
             custom_variable_ids?: components["schemas"]["FlakeId"][] | null;
         };
+        /** @description Represents the configuration for trials of a product */
+        UpsertProductTrialConfigurationDto: {
+            /** @description Indicates if trials should be enabled for the product. */
+            enabled?: boolean | null;
+            /**
+             * Format: int32
+             * @description The trial period value.
+             */
+            period_value?: number | null;
+            period_scale?: components["schemas"]["ProductSubscriptionIntervalScale"];
+            /** @description Indicates if the trial should be revoked immediately when canceled or at the end of the trial. */
+            revoke_immediately_when_canceled?: boolean | null;
+            /** @description Restricts trials to customers who have no orders within the lookback period.
+             *     When enabled, customers with recent orders will be ineligible for trials. */
+            new_customers_only?: boolean | null;
+            /**
+             * Format: int32
+             * @description The lookback period value for determining if a customer is "new".
+             *     Only used when new_customers_only is enabled.
+             */
+            new_customer_order_lookback_value?: number | null;
+            new_customer_order_lookback_scale?: components["schemas"]["ProductSubscriptionIntervalScale"];
+            /** @description Allows customers to trial again after a cooldown period following their previous trial.
+             *     When disabled, customers can only trial once and never become eligible again. */
+            allow_repeat_trials?: boolean | null;
+            /**
+             * Format: int32
+             * @description The cooldown period value before a customer becomes eligible for another trial.
+             *     Only used when allow_repeat_trials is enabled.
+             */
+            repeat_trial_cooldown_value?: number | null;
+            repeat_trial_cooldown_scale?: components["schemas"]["ProductSubscriptionIntervalScale"];
+        };
         UpsertTagRequestDto: {
             name?: string | null;
             slug?: string | null;
@@ -3970,7 +4218,7 @@ export interface components {
             validation: string;
         };
         /** @enum {string} */
-        WebhookEventType: "on_ignore" | "on_order_completed" | "on_refund" | "on_chargeback" | "on_delivery_item_added" | "on_delivery_item_activated" | "on_delivery_item_used" | "on_delivery_item_revoked" | "on_subscription_activated" | "on_subscription_renewed" | "on_subscription_canceled" | "on_discord_order_actions_queued" | "on_connected_user_registered" | "on_connected_user_became_payable" | "on_connected_user_payout_created" | "on_connected_user_payout_completed" | "on_connected_user_transaction_inserted" | "on_connected_user_became_unpayable";
+        WebhookEventType: "on_ignore" | "on_order_completed" | "on_refund" | "on_chargeback" | "on_delivery_item_added" | "on_delivery_item_activated" | "on_delivery_item_used" | "on_delivery_item_revoked" | "on_subscription_activated" | "on_subscription_renewed" | "on_subscription_canceled" | "on_discord_order_actions_queued" | "on_connected_user_registered" | "on_connected_user_became_payable" | "on_connected_user_payout_created" | "on_connected_user_payout_completed" | "on_connected_user_transaction_inserted" | "on_connected_user_became_unpayable" | "on_trial_activated" | "on_trial_completed" | "on_trial_canceled";
         WebhookHistoryDto: {
             /** Format: int32 */
             page: number;
@@ -4684,12 +4932,6 @@ export interface operations {
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
                 asc?: boolean;
-                /** @description Filters coupons by the ID of the creator. */
-                created_by_id?: components["schemas"]["FlakeId"];
-                /** @description Exclude auto-generated coupons from the results when set to true. */
-                exclude_generated?: boolean;
-                /** @description Exclude inactive coupons from the results when set to true. */
-                exclude_inactive?: boolean;
             };
             header?: never;
             path: {
@@ -7665,12 +7907,12 @@ export interface operations {
     Subscriptions_GetSubscriptions: {
         parameters: {
             query?: {
-                store_id?: components["schemas"]["FlakeId"];
                 customer_id?: components["schemas"]["FlakeId"];
                 subscription_id?: components["schemas"]["FlakeId"];
                 billing_email?: string;
                 payment_method_id?: components["schemas"]["FlakeId"];
                 checkout_id?: components["schemas"]["FlakeId"];
+                trial_id?: components["schemas"]["FlakeId"];
                 status?: components["schemas"]["SubscriptionStatus"][];
                 /** @description The maximum number of items to return in a single request. */
                 limit?: number;
@@ -8040,6 +8282,225 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_GetOverrides: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the store to retrieve trial eligibility overrides for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the customer to retrieve trial eligibility overrides for. */
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_CreateOverride: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store to create the trial eligibility override for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the customer to create the trial eligibility override for. */
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        /** @description The trial eligibility override data. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+                "text/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+                "application/*+json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_DeleteOverride: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store to delete the trial eligibility override for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the trial eligibility override to delete. */
+                trialEligibilityOverrideId: components["schemas"]["FlakeId"];
+                customerId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Trials_GetTrials: {
+        parameters: {
+            query?: {
+                /** @description Filters trials by their status. Multiple statuses can be specified. */
+                status?: components["schemas"]["TrialStatusDto"][];
+                /** @description Filters trials by the customer identifier. */
+                customer_id?: components["schemas"]["FlakeId"];
+                /** @description Filters trials by the associated subscription identifier. */
+                subscription_id?: components["schemas"]["FlakeId"];
+                /** @description Filters trials by the checkout session identifier that initiated them. */
+                checkout_id?: components["schemas"]["FlakeId"];
+                /** @description Filters to a specific trial by its identifier. */
+                trial_id?: components["schemas"]["FlakeId"];
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Trials_GetTrial: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                trialId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialDto"];
+                };
             };
             /** @description Error response */
             default: {

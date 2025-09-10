@@ -19,5 +19,7 @@ export { ProductAPI } from "./product";
 export { SaleAPI } from "./sale";
 export { SubscriptionAPI } from "./subscription";
 export { TagAPI } from "./tag";
+export { TrialEligibilityAPI } from "./trial-eligibility";
+export { TrialAPI } from "./trial";
 export { TrustAPI } from "./trust";
 export { WebhookAPI } from "./webhook";
