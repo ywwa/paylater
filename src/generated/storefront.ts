@@ -341,6 +341,8 @@ export interface components {
             product_id: components["schemas"]["FlakeId"];
             /** @description Determines whether this line should create a subscription */
             subscription: boolean;
+            /** @description Indicates whether the product should be trialed */
+            trial?: boolean | null;
             gift_to?: components["schemas"]["CustomerPlatformAccountDto"];
             gift_to_customer_id?: components["schemas"]["FlakeId"];
             /**
@@ -810,6 +812,7 @@ export interface components {
             remove_after_time_scale: components["schemas"]["ProductRemoveAfterIntervalScale"];
             pricing?: components["schemas"]["StorefrontProductPricingDetailsDto"];
             stock?: components["schemas"]["StorefrontProductStockStatusDto"];
+            trial: components["schemas"]["StorefrontProductTrialDto"];
             /** @description The tags associated with the product. */
             tags: components["schemas"]["ProductTagDto"][];
             /** @description The game servers associated with the product. */
@@ -894,6 +897,18 @@ export interface components {
              * @example 5
              */
             customer_available: number;
+        };
+        StorefrontProductTrialDto: {
+            /** @description Indicates whether the trial period is enabled for this product. */
+            enabled: boolean;
+            /** @description Indicates whether the customer is eligible for the trial period. */
+            eligible: boolean;
+            /**
+             * Format: int32
+             * @description The duration value of the trial period.
+             */
+            period_value: number;
+            period_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
         };
         StorefrontSaleDto: {
             id: components["schemas"]["FlakeId"];
