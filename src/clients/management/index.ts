@@ -21,3 +21,5 @@ export { SubscriptionAPI } from "./subscription";
 export { TagAPI } from "./tag";
 export { TrustAPI } from "./trust";
 export { WebhookAPI } from "./webhook";
+export { TrialEligibilityAPI } from "./trial-eligibility";
+export { TrialAPI } from "./trial";
