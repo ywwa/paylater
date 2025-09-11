@@ -311,6 +311,8 @@ export interface components {
             quantity: number;
             /** @description Indicates whether this line item should be a subscription */
             subscription: boolean;
+            /** @description Indicates whether this line will be trialied by the customer. */
+            trial: boolean;
             /** @description The URL to the product image */
             image_url?: string | null;
             selected_gameserver_id?: components["schemas"]["FlakeId"];
@@ -1168,6 +1170,8 @@ export interface operations {
                 quantity?: number;
                 /** @description Set to either '1' or 'true' to store as a subscription line item. */
                 subscription?: string;
+                /** @description Set to either '1' or 'true' to indicate if the line should be trialed. */
+                trial?: string;
                 /** @description A game server ID, required if single_game_server_only is enabled for the product. */
                 gameserver_id?: components["schemas"]["FlakeId"];
                 /** @description Set to either '1' or 'true' to increment (add quantity instead of setting). */
