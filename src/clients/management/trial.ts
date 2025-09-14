@@ -3,9 +3,7 @@ import { APIClient } from "../../lib/client";
 import type { AuthScheme, ClientConfig, OptionsType } from "../../lib/types";
 
 type GetTrialsOptions = OptionsType<Management.operations["Trials_GetTrials"]>;
-type GetTrialOptions = OptionsType<
-  Management.operations["Trials_GetTrial"]
->;
+type GetTrialOptions = OptionsType<Management.operations["Trials_GetTrial"]>;
 
 export class TrialAPI {
   private client: APIClient<Management.paths>;
