@@ -20,8 +20,8 @@ import {
   SaleAPI,
   SubscriptionAPI,
   TagAPI,
-  TrialEligibilityAPI,
   TrialAPI,
+  TrialEligibilityAPI,
   TrustAPI,
   WebhookAPI,
 } from "../clients/management";
@@ -49,8 +49,8 @@ export class ManagementAPI {
   public readonly sale: SaleAPI;
   public readonly subscription: SubscriptionAPI;
   public readonly tag: TagAPI;
-  public readonly trialEligibility: TrialEligibilityAPI;
   public readonly trial: TrialAPI;
+  public readonly trialEligibility: TrialEligibilityAPI;
   public readonly trust: TrustAPI;
   public readonly webhook: WebhookAPI;
 
@@ -83,8 +83,8 @@ export class ManagementAPI {
     this.sale = new SaleAPI(config);
     this.subscription = new SubscriptionAPI(config);
     this.tag = new TagAPI(config);
-    this.trialEligibility = new TrialEligibilityAPI(config);
     this.trial = new TrialAPI(config);
+    this.trialEligibility = new TrialEligibilityAPI(config);
     this.trust = new TrustAPI(config);
     this.webhook = new WebhookAPI(config);
 
@@ -110,8 +110,8 @@ export class ManagementAPI {
       this.sale,
       this.subscription,
       this.tag,
-      this.trialEligibility,
       this.trial,
+      this.trialEligibility,
       this.trust,
       this.webhook,
     ];
