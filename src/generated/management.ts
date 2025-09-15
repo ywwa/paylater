@@ -2729,6 +2729,7 @@ export interface components {
              */
             product_image_url?: string | null;
             subscription_id?: components["schemas"]["FlakeId"];
+            trial_id?: components["schemas"]["FlakeId"];
             /**
              * Format: int32
              * @description The interval value for subscription products
