@@ -193,7 +193,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Update product version id for inventory items of given product id */
         post: operations["RootCommandDelivery_UpdateInventoryItemProductVersion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/command-delivery/unqueue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unqueue commands by attempt IDs */
+        post: operations["RootCommandDelivery_UnqueueCommands"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1704,6 +1722,16 @@ export interface components {
          * @enum {string}
          */
         CouponDurationEnum: "once" | "forever" | "repeating";
+        /**
+         * @description Will filter by coupon status.
+         * @enum {string}
+         */
+        CouponFilterStatusEnum: "all" | "active" | "inactive";
+        /**
+         * @description Will filter by coupon creation type.
+         * @enum {string}
+         */
+        CouponFilterTypeEnum: "all" | "manual" | "generated";
         CreateAffiliateLinkDto: {
             wallet_id: string;
             enabled: boolean;
@@ -3926,6 +3954,13 @@ export interface components {
             /** @description The user agent string of the client that made the submission. */
             submitted_by_user_agent?: string | null;
         };
+        UnqueueCommandsRequestDto: {
+            attempt_ids: components["schemas"]["FlakeId"][];
+        };
+        UnqueueCommandsResponseDto: {
+            /** Format: int64 */
+            unqueued_count: number;
+        };
         UpdateAffiliateLinkDto: {
             enabled?: boolean | null;
             code?: string | null;
@@ -4912,6 +4947,43 @@ export interface operations {
             };
         };
     };
+    RootCommandDelivery_UnqueueCommands: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "text/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "application/*+json": components["schemas"]["UnqueueCommandsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnqueueCommandsResponseDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
     StoreCoupons_GetCouponsForStore: {
         parameters: {
             query?: {
@@ -4933,6 +5005,10 @@ export interface operations {
                  *     When true, items are returned in ascending order.
                  *     When false, items are returned in descending order. */
                 asc?: boolean;
+                /** @description Filter by status */
+                status?: components["schemas"]["CouponFilterStatusEnum"];
+                /** @description Filter by creation type of coupons. */
+                type?: components["schemas"]["CouponFilterTypeEnum"];
             };
             header?: never;
             path: {
