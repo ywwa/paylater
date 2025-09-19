@@ -8,6 +8,9 @@ type AssignDeliveryItemsBulkOptions = OptionsType<
 type UpdateInventoryItemProductVersionOptions = OptionsType<
   Management.operations["RootCommandDelivery_UpdateInventoryItemProductVersion"]
 >;
+type UnqueueCommandsOptions = OptionsType<
+  Management.operations["RootCommandDelivery_UnqueueCommands"]
+>;
 
 export class CommandDeliveryAPI {
   private client: APIClient<Management.paths>;
@@ -45,5 +48,9 @@ export class CommandDeliveryAPI {
       "/v1/stores/{storeId}/command-delivery/inventory-item/update-product-versions",
       options,
     );
+  }
+
+  async unqueueCommands(options: UnqueueCommandsOptions) {
+    return this.client.post("/v1/stores/{storeId}/command-delivery/unqueue", options);
   }
 }
