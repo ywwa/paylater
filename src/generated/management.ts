@@ -100,124 +100,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stores/{storeId}/orders/{orderId}/command-delivery": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get delivery items associated with an order
-         * @description Retrieves all delivery items associated with a specific order.
-         */
-        get: operations["RootOrdersCommandDelivery_GetOrderDeliveryItems"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/customers/{customerId}/command-delivery": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get delivery items associated with a customer
-         * @description Retrieves delivery items associated with a customer
-         */
-        get: operations["RootCustomersCommandDeliveryControllerBase_GetDeliveryItems"];
-        put?: never;
-        /**
-         * Assign a delivery item to a customer
-         * @description Allows you to assign a delivery item to a customer
-         */
-        post: operations["RootCustomersCommandDeliveryControllerBase_AssignDeliveryItem"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/customers/{customerId}/command-delivery/{deliveryItemId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Revoke a delivery item for a customer
-         * @description Allows you to revoke a delivery item associated with a customer
-         */
-        delete: operations["RootCustomersCommandDeliveryControllerBase_RevokeDeliveryItem"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/command-delivery": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Assign delivery items in bulk
-         * @description Allows you to assign multiple delivery items for multiple customers in bulk
-         */
-        post: operations["RootCommandDelivery_AssignDeliveryItemsBulk"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/command-delivery/inventory-item/update-product-versions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Update product version id for inventory items of given product id */
-        post: operations["RootCommandDelivery_UpdateInventoryItemProductVersion"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/command-delivery/unqueue": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Unqueue commands by attempt IDs */
-        post: operations["RootCommandDelivery_UnqueueCommands"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/stores/{storeId}/coupons": {
         parameters: {
             query?: never;
@@ -453,7 +335,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stores/{storeId}/deliverables/{deliverableId}/commands/resend": {
+    "/v1/stores/{storeId}/orders/{orderId}/delivery/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get delivery items associated with an order
+         * @description Retrieves all delivery items associated with a specific order.
+         */
+        get: operations["OrdersDelivery_GetOrderDeliveryItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/orders/{orderId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get delivery items associated with an order
+         * @deprecated
+         * @description **Deprecated:**
+         *
+         *     Retrieves all delivery items associated with a specific order.
+         */
+        get: operations["LegacyOrdersCommandDeliveryControllerWithDash_GetOrderDeliveryItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/delivery/items": {
         parameters: {
             query?: never;
             header?: never;
@@ -462,7 +387,210 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["Deliverables_ResendCommandsForGameServer"];
+        /**
+         * Assign delivery items in bulk
+         * @description Allows you to assign multiple delivery items for multiple customers in bulk
+         */
+        post: operations["Delivery_AssignDeliveryItemsBulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/delivery/commands/unqueue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unqueue commands by Attempt IDs */
+        post: operations["Delivery_UnqueueDeliveryCommandAttemptByAttemptIDs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/delivery/items/update-product-versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Update product version id for delivery items of given product id */
+        post: operations["Delivery_UpdateDeliveryItemProductVersions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @deprecated
+         * @description **Deprecated:**
+         */
+        post: operations["LegacyCommandDelivery_AssignDeliveryItemsBulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/command-delivery/unqueue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @deprecated
+         * @description **Deprecated:**
+         */
+        post: operations["LegacyCommandDelivery_UnqueueDeliveryCommandAttemptByAttemptIDs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/delivery/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get delivery items associated with a customer
+         * @description Retrieves delivery items associated with a customer
+         */
+        get: operations["CustomersDelivery_GetDeliveryItems"];
+        put?: never;
+        /**
+         * Assign a delivery item to a customer
+         * @description Allows you to assign a delivery item to a customer
+         */
+        post: operations["CustomersDelivery_AssignDeliveryItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/delivery/items/{deliveryItemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke a delivery item from a customer
+         * @description Allows you to revoke a delivery item associated with a customer
+         */
+        delete: operations["CustomersDelivery_RevokeDeliveryItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/delivery/commands": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get command attempts associated with a customer
+         * @description Retrieves command attempts associated with a customer
+         */
+        get: operations["CustomersDelivery_GetCommandAttempts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/command-delivery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @deprecated
+         * @description **Deprecated:**
+         */
+        get: operations["LegacyCustomersDeliveryControllerWithDash_GetDeliveryItems"];
+        put?: never;
+        /**
+         * @deprecated
+         * @description **Deprecated:**
+         */
+        post: operations["LegacyCustomersDeliveryControllerWithDash_AssignDeliveryItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/command-delivery/{deliveryItemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * @deprecated
+         * @description **Deprecated:**
+         */
+        delete: operations["LegacyCustomersDeliveryControllerWithDash_RevokeDeliveryItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/gameservers/{gameServerId}/delivery/commands/resend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resend commands for a given Gameserver */
+        post: operations["GameServersDelivery_ResendDeliveryCommandsForGameServer"];
         delete?: never;
         options?: never;
         head?: never;
@@ -966,6 +1094,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stores/{storeId}/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get payments
+         * @description Retrieves all payments for the specified store using the filter specified.
+         */
+        get: operations["Payments_GetPayments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/payments/{paymentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get payment by ID
+         * @description Retrieves a payment by an ID.
+         */
+        get: operations["Payments_GetPaymentById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/payments/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get store payment settings
+         * @description Retrieves payment settings for a store.
+         */
+        get: operations["PaymentsSettings_GetStorePaymentSettings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Updates store payment settings
+         * @description Updates payment settings for a store.
+         */
+        patch: operations["PaymentsSettings_UpdateStorePaymentSettings"];
+        trace?: never;
+    };
     "/v1/stores/{storeId}/products": {
         parameters: {
             query?: never;
@@ -976,7 +1168,7 @@ export interface paths {
         /**
          * Get products
          * @description Retrieves all products for the specified store.
-         *     DO NOT USE THIS ROUTE FOR DISPLAYING PRODUCTS ON YOUR STOREFRONT, use the storefront API instead.
+         *     DO NOT USE THIS ROUTE FOR DISPLAYING PRODUCTS ON YOUR STOREFRONT, use the storefront API instead!
          */
         get: operations["Products_GetProducts"];
         put?: never;
@@ -1315,50 +1507,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stores/{storeId}/customers/{customerId}/trial-eligibility/overrides": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get trial eligibility overrides
-         * @description Retrieves all trial eligibility overrides for the specified customer.
-         */
-        get: operations["CustomersTrialEligibility_GetOverrides"];
-        put?: never;
-        /**
-         * Create trial eligibility override
-         * @description Creates a new trial eligibility override for the specified customer.
-         */
-        post: operations["CustomersTrialEligibility_CreateOverride"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stores/{storeId}/customers/{customerId}/trial-eligibility/overrides/{trialEligibilityOverrideId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Delete trial eligibility override
-         * @description Deletes an existing trial eligibility override.
-         */
-        delete: operations["CustomersTrialEligibility_DeleteOverride"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/stores/{storeId}/trials": {
         parameters: {
             query?: never;
@@ -1388,6 +1536,50 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/trials/eligibility/overrides": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get trial eligibility overrides for a specific customer
+         * @description Retrieves all trial eligibility overrides for the specified customer.
+         */
+        get: operations["CustomersTrialEligibility_GetEligibilityOverridesForCustomer"];
+        put?: never;
+        /**
+         * Create trial eligibility override for a customer
+         * @description Creates a new trial eligibility override for the specified customer.
+         */
+        post: operations["CustomersTrialEligibility_CreateEligibilityOverrideForCustomer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stores/{storeId}/customers/{customerId}/trials/eligibility/overrides/{trialEligibilityOverrideId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete trial eligibility override for a customer
+         * @description Deletes an existing trial eligibility override.
+         */
+        delete: operations["CustomersTrialEligibility_DeleteEligibilityOverrideForCustomer"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1493,6 +1685,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** @description Represents a command associated with the store-level abandoned checkout configuration. */
+        AbandonedCheckoutStoreConfigurationCommandDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description The command to execute. */
+            command: string;
+            /** @description Indicates if the command should be executed if the player is online. */
+            online_only: boolean;
+        };
         /** @description Represents the store-level configuration for abandoned checkout settings. */
         AbandonedCheckoutStoreConfigurationDto: {
             store_id: components["schemas"]["FlakeId"];
@@ -1524,12 +1725,21 @@ export interface components {
             max_coupons_global_amount?: number | null;
             max_coupons_global_period?: components["schemas"]["Period"];
             coupon_configuration: components["schemas"]["MarketingCouponConfigurationDto"];
+            /** @description The commands you want to execute when the email is sent. */
+            commands: components["schemas"]["AbandonedCheckoutStoreConfigurationCommandDto"][];
             updated_by: components["schemas"]["ActorDto"];
             /**
              * Format: date-time
              * @description The date and time when the configuration was last updated.
              */
             updated_at: string;
+        };
+        /** @description Represents a command associated with the store-level abandoned checkout configuration. */
+        AbandonedCheckoutStoreConfigurationUpdateCommandDto: {
+            /** @description The command to execute. */
+            command: string;
+            /** @description Indicates if the command should be executed if the player is online. */
+            online_only: boolean;
         };
         /** @description Used for updating the store-level configuration for abandoned checkout settings. */
         AbandonedCheckoutStoreConfigurationUpdateDto: {
@@ -1558,6 +1768,7 @@ export interface components {
              */
             max_coupons_global_amount?: number | null;
             max_coupons_global_period?: components["schemas"]["Period"];
+            commands: components["schemas"]["AbandonedCheckoutStoreConfigurationUpdateCommandDto"][];
             coupon_configuration: components["schemas"]["MarketingCouponConfigurationDto"];
         };
         ActorDto: {
@@ -1593,6 +1804,19 @@ export interface components {
         };
         /** @enum {string} */
         AffiliateLinkRefererType: "invalid" | "first_referer" | "last_referer";
+        /** @description Alipay payment method details */
+        AlipayDetailsDto: {
+            /**
+             * @description The Alipay buyer identifier
+             * @example buyer_abc123
+             */
+            buyer_id?: string | null;
+            /**
+             * @description A unique fingerprint for this Alipay account
+             * @example fingerprint_xyz789
+             */
+            fingerprint?: string | null;
+        };
         BanDto: {
             id: components["schemas"]["FlakeId"];
             store_id: components["schemas"]["FlakeId"];
@@ -1614,17 +1838,132 @@ export interface components {
         };
         /** @enum {string} */
         BanType: "unknown" | "steam" | "ip" | "customer" | "customer_name" | "email";
+        /** @description Bancontact payment method details */
+        BancontactDetailsDto: {
+            /**
+             * @description The bank identifier
+             * @example bnp_paribas
+             */
+            bank?: string | null;
+            /**
+             * @description The bank name
+             * @example BNP Paribas
+             */
+            bank_name?: string | null;
+            /**
+             * @description The Bank Identifier Code
+             * @example GEBABEBB
+             */
+            bic?: string | null;
+            /**
+             * @description The last 4 digits of the IBAN
+             * @example 3456
+             */
+            iban_last4?: string | null;
+            /**
+             * @description The payer name
+             * @example Jean Dupont
+             */
+            payer_name?: string | null;
+        };
+        /** @description Card payment method details */
+        CardDetailsDto: {
+            /**
+             * @description The card brand
+             * @example visa
+             */
+            brand: string;
+            /**
+             * @description The country code where the card was issued
+             * @example US
+             */
+            country: string;
+            /**
+             * Format: int32
+             * @description The card expiration month
+             * @example 12
+             */
+            exp_month: number;
+            /**
+             * Format: int32
+             * @description The card expiration year
+             * @example 2028
+             */
+            exp_year: number;
+            /**
+             * @description A unique fingerprint for this card
+             * @example abc123def456
+             */
+            fingerprint: string;
+            /**
+             * @description The card funding type
+             * @example credit
+             */
+            funding: string;
+            /**
+             * @description The last 4 digits of the card number
+             * @example 4242
+             */
+            last4: string;
+            /**
+             * @description The Bank Identification Number (first 6/8 digits of card).
+             *     Only available internally.
+             * @example 424242
+             */
+            bin?: string | null;
+            /**
+             * @description The card issuer/bank name.
+             *     Only available internally.
+             * @example Chase Bank
+             */
+            issuer?: string | null;
+            /**
+             * @description The card description.
+             *     Only available internally.
+             * @example Visa Signature
+             */
+            description?: string | null;
+            wallet?: components["schemas"]["CardWalletDto"];
+        };
+        /** @description Digital wallet details for a card */
+        CardWalletDto: {
+            /**
+             * @description The type of digital wallet
+             * @example apple_pay
+             */
+            type: string;
+        };
+        /** @description Cash App payment method details */
+        CashAppDetailsDto: {
+            /**
+             * @description The Cash App buyer identifier
+             * @example buyer_abc123
+             */
+            buyer_id: string;
+            /**
+             * @description The Cash App cashtag
+             * @example $johndoe
+             */
+            cashtag: string;
+        };
+        /**
+         * @description Defines the type of chargeback coverage provided.
+         * @enum {string}
+         */
+        ChargebackCoverageTypeDto: "unspecified" | "none" | "fraudulent" | "all";
         CheckForBanIDByIdentitiesRequestDto: {
             identities: components["schemas"]["BanIdentityDto"][];
         };
         CommandAttemptDto: {
             id: components["schemas"]["FlakeId"];
-            inventory_item_id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            inventory_item_id?: components["schemas"]["FlakeId"];
             gameserver_id: components["schemas"]["FlakeId"];
             steam_id?: components["schemas"]["SteamId"];
             minecraft_uuid?: string | null;
             customer_name?: string | null;
-            command_stage: string;
+            customer_id?: components["schemas"]["FlakeId"];
+            command_stage?: string | null;
             command: string;
             online_only: boolean;
             rerun: boolean;
@@ -1812,7 +2151,7 @@ export interface components {
              * @description Whether this checkout creates a subscription.
              *     DEPRECATED: Use 'subscription' field in 'lines' array objects instead.
              */
-            subscription: boolean;
+            subscription?: boolean | null;
             coupon_id?: components["schemas"]["FlakeId"];
             /** @description Optional affiliate code to track referrals */
             affiliate_code?: string | null;
@@ -1821,7 +2160,7 @@ export interface components {
             /** @description Optional URL to redirect to if checkout is canceled */
             cancel_url?: string | null;
             /** @description Whether to automatically redirect the customer (return_url must be set) */
-            auto_redirect: boolean;
+            auto_redirect?: boolean | null;
             /** @description Optional metadata to associate with the checkout session.
              *     Do not store any sensitive information here. */
             metadata?: {
@@ -1912,6 +2251,10 @@ export interface components {
             /** Format: date-time */
             ends_at?: string;
         };
+        CreateStorePaymentSettingsDto: {
+            show_all_payment_methods_for_subscriptions: boolean;
+            store_tax_inclusive_pricing: boolean;
+        };
         CreateTrialEligibilityOverrideDto: {
             product_id: components["schemas"]["FlakeId"];
             /** Format: date-time */
@@ -1925,6 +2268,30 @@ export interface components {
             discord_description_template?: string | null;
             discord_title?: string | null;
             discord_color?: string | null;
+        };
+        /** @description Cryptocurrency payment method details */
+        CryptoDetailsDto: {
+            /**
+             * @description The cryptocurrency used
+             * @example BTC
+             */
+            crypto_currency: string;
+            /**
+             * @description The amount in cryptocurrency
+             * @example 0.00150000
+             */
+            crypto_amount: string;
+            /**
+             * @description The total amount paid in cryptocurrency
+             * @example 0.00150000
+             */
+            total_paid: string;
+            /**
+             * Format: int32
+             * @description The number of blockchain confirmations
+             * @example 6
+             */
+            confirmations: number;
         };
         CustomVariableDto: {
             id: components["schemas"]["FlakeId"];
@@ -2457,6 +2824,29 @@ export interface components {
             updated_at?: string | null;
             updated_by?: components["schemas"]["ActorDto"];
         };
+        /** @description iDEAL payment method details */
+        IdealDetailsDto: {
+            /**
+             * @description The bank identifier
+             * @example abn_amro
+             */
+            bank: string;
+            /**
+             * @description The Bank Identifier Code
+             * @example ABNANL2A
+             */
+            bic: string;
+            /**
+             * @description The last 4 digits of the IBAN
+             * @example 1234
+             */
+            iban_last4?: string | null;
+            /**
+             * @description The payer name
+             * @example John Doe
+             */
+            payer_name?: string | null;
+        };
         /** @description Optional inline product definition for dynamic products.
          *     Requires special approval, use `product_id` instead. */
         InlineProductCreateDto: {
@@ -2540,11 +2930,32 @@ export interface components {
             /** @description The IDs of associated custom variables. */
             custom_variable_ids?: components["schemas"]["FlakeId"][] | null;
         };
+        /** @description Klarna payment method details */
+        KlarnaDetailsDto: {
+            /**
+             * @description The country code
+             * @example SE
+             */
+            country?: string | null;
+            /**
+             * @description The Klarna payment method category
+             * @example pay_later
+             */
+            method_category?: string | null;
+        };
         /** @description The last payment decline object. */
         LastPaymentErrorDto: {
             decline_code: components["schemas"]["PaymentDeclineCode"];
             /** @description Human-readable decline reason message. */
             message: string;
+        };
+        /** @description Link payment method details */
+        LinkDetailsDto: {
+            /**
+             * @description The email associated with the Link account
+             * @example john.doe@example.com
+             */
+            email: string;
         };
         /** @description Represents the configuration settings for a coupon applied to marketing features. */
         MarketingCouponConfigurationDto: {
@@ -2885,6 +3296,42 @@ export interface components {
          * @enum {string}
          */
         OrderType: "one_time" | "subscription" | "mixed";
+        /** @description Przelewy24 payment method details */
+        P24DetailsDto: {
+            /**
+             * @description The bank identifier
+             * @example ing
+             */
+            bank: string;
+            /**
+             * @description The payer name
+             * @example Jan Kowalski
+             */
+            payer_name?: string | null;
+        };
+        /** @description Pay by Bank payment method details */
+        PayByBankDetailsDto: {
+            /**
+             * @description The bank name
+             * @example Chase Bank
+             */
+            bank_name?: string | null;
+            /**
+             * @description The Bank Identifier Code
+             * @example CHASUS33
+             */
+            bic?: string | null;
+            /**
+             * @description The country code
+             * @example US
+             */
+            country?: string | null;
+            /**
+             * @description The payer name
+             * @example John Smith
+             */
+            payer_name?: string | null;
+        };
         /** @enum {string} */
         PayNowActorType: "anonymous" | "user" | "customer" | "api_key" | "game_server" | "admin" | "internal" | "platform" | "global_customer";
         /** @description Represents a PayNow error */
@@ -2913,17 +3360,345 @@ export interface components {
             /** @description An array of multiple errors. Only used by some API services. */
             errors?: components["schemas"]["ValidationError"][] | null;
         };
+        /** @description PayPal payment method details */
+        PayPalDetailsDto: {
+            /**
+             * @description The PayPal payer identifier
+             * @example PAYERID123
+             */
+            payer_id: string;
+            /**
+             * @description The PayPal account email
+             * @example john.doe@example.com
+             */
+            payer_email: string;
+            /**
+             * @description The PayPal account holder name
+             * @example John Doe
+             */
+            payer_name: string;
+            /**
+             * @description The country code of the PayPal account
+             * @example US
+             */
+            country: string;
+            /**
+             * @description Indicates if this PayPal account is vaulted
+             * @example true
+             */
+            vault: boolean;
+            /**
+             * @description Indicates if vault approval is pending
+             * @example false
+             */
+            pending_vault_approval?: boolean | null;
+            /**
+             * @description Indicates if this is a standalone setup
+             * @example false
+             */
+            standalone_setup?: boolean | null;
+        };
+        /**
+         * @description Represents chargeback status of a payment
+         * @enum {string}
+         */
+        PaymentChargebackStatusDto: "none" | "pending" | "won" | "lost";
         /**
          * @description A payment decline reason code.
          * @enum {string}
          */
         PaymentDeclineCode: "unknown" | "generic_decline" | "call_issuer" | "authentication_required" | "currency_not_supported" | "duplicate_transaction" | "expired_card" | "fraudulent" | "incorrect_number" | "incorrect_cvc" | "incorrect_pin" | "incorrect_zip" | "insufficient_funds" | "invalid_account" | "invalid_amount" | "invalid_expiry_month" | "invalid_expiry_year" | "issuer_not_available" | "lost_card" | "merchant_blacklist" | "new_account_information_available" | "no_action_taken" | "pickup_card" | "pin_try_exceeded" | "restricted_card" | "stolen_card" | "testmode_decline" | "try_again_later" | "security_violation" | "card_velocity_exceeded" | "do_not_honor" | "processing_error" | "card_not_supported" | "transaction_not_allowed" | "authorization_revoked";
+        /** @description Represents a payment transaction */
+        PaymentDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            order_id: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            customer: components["schemas"]["CustomerDto"];
+            /** @description The list of refunds associated with this payment */
+            refunds?: components["schemas"]["RefundDto"][] | null;
+            /**
+             * @description The payment gateway provider
+             * @example stripe
+             */
+            gateway: string;
+            /** @description The gateway entity identifier */
+            gateway_entity_identifier: string;
+            /** @description The gateway payment identifier */
+            gateway_id: string;
+            method: components["schemas"]["PaymentMethodDto"];
+            method_id?: components["schemas"]["FlakeId"];
+            status: components["schemas"]["PaymentStatusDto"];
+            /**
+             * @description The currency code used for this payment in the store's currency
+             * @example usd
+             */
+            currency: string;
+            /**
+             * Format: int32
+             * @description The total payment amount in smallest currency unit
+             * @example 10000
+             */
+            amount: number;
+            /**
+             * Format: int32
+             * @description The gateway fee amount in smallest currency unit
+             * @example 320
+             */
+            gateway_fee_amount: number;
+            /**
+             * Format: int32
+             * @description The tax amount in smallest currency unit
+             * @example 850
+             */
+            tax_amount: number;
+            /**
+             * Format: int32
+             * @description The platform fee amount in smallest currency unit
+             * @example 500
+             */
+            platform_fee_amount: number;
+            /**
+             * Format: int32
+             * @description The net amount going to the store in smallest currency unit
+             * @example 8330
+             */
+            store_net_amount: number;
+            /**
+             * @description The currency code used for presentment to the customer
+             * @example eur
+             */
+            presentment_currency: string;
+            /**
+             * Format: int32
+             * @description The amount presented to the customer in smallest currency unit
+             * @example 9500
+             */
+            presentment_amount: number;
+            /**
+             * Format: double
+             * @description The foreign exchange rate used for currency conversion
+             * @example 1.085
+             */
+            fx_rate?: number | null;
+            /**
+             * Format: int32
+             * @description The platform fee rate applied to this payment (in basis points)
+             * @example 500
+             */
+            platform_fee_rate: number;
+            chargeback_status: components["schemas"]["PaymentChargebackStatusDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when the chargeback status was last updated
+             * @example null
+             */
+            chargeback_status_updated_at?: string | null;
+            /** @description The payout split rules for multi-party payments */
+            payout_split_rules?: components["schemas"]["PaymentPayoutSplitRuleDto"][] | null;
+            /** @description The payout split results for multi-party payments */
+            payout_split_results?: components["schemas"]["PaymentPayoutSplitResultDto"][] | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment was created
+             * @example 2025-04-01T15:30:45Z
+             */
+            created_at: string;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment entered pending status
+             * @example 2025-04-01T15:30:46Z
+             */
+            pending_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment was completed
+             * @example 2025-04-01T15:31:12Z
+             */
+            completed_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment was canceled
+             * @example null
+             */
+            canceled_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment failed
+             * @example null
+             */
+            failed_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment was last refunded
+             * @example null
+             */
+            refunded_at?: string | null;
+            /**
+             * Format: date-time
+             * @description The date and time when a chargeback was initiated on this payment
+             * @example null
+             */
+            chargeback_at?: string | null;
+            last_payment_error?: components["schemas"]["LastPaymentErrorDto"];
+        };
+        /** @description Contains detailed information about a payment method.
+         *     DISCLAIMER: These fields are not guaranteed to be backwards compatible and may change or be removed without notice. */
+        PaymentMethodDetailsDto: {
+            card?: components["schemas"]["CardDetailsDto"];
+            cashapp?: components["schemas"]["CashAppDetailsDto"];
+            paypal?: components["schemas"]["PayPalDetailsDto"];
+            link?: components["schemas"]["LinkDetailsDto"];
+            crypto?: components["schemas"]["CryptoDetailsDto"];
+            steamskins?: components["schemas"]["SteamSkinsDetailsDto"];
+            ideal?: components["schemas"]["IdealDetailsDto"];
+            p24?: components["schemas"]["P24DetailsDto"];
+            bancontact?: components["schemas"]["BancontactDetailsDto"];
+            klarna?: components["schemas"]["KlarnaDetailsDto"];
+            alipay?: components["schemas"]["AlipayDetailsDto"];
+            pay_by_bank?: components["schemas"]["PayByBankDetailsDto"];
+            pix?: components["schemas"]["PixDetailsDto"];
+        };
+        /** @description Represents a stored payment method */
+        PaymentMethodDto: {
+            id: components["schemas"]["FlakeId"];
+            customer_id: components["schemas"]["FlakeId"];
+            /** @description The payment gateway provider */
+            gateway: string;
+            /** @description The gateway's identifier for this payment method */
+            gateway_id: string;
+            /** @description The gateway's customer identifier */
+            gateway_customer_id: string;
+            /**
+             * @description The gateway-specific type identifier
+             * @example card
+             */
+            gateway_type: string;
+            /**
+             * @description The payment method type
+             * @example card
+             */
+            method_type: string;
+            method_details: components["schemas"]["PaymentMethodDetailsDto"];
+            /**
+             * Format: date-time
+             * @description The date and time when this payment method was created
+             * @example 2025-03-15T10:20:30Z
+             */
+            created_at: string;
+            /** @description The gateway entity identifier */
+            gateway_entity_identifier: string;
+            /**
+             * Format: date-time
+             * @description The date and time when this payment method was last updated
+             * @example 2025-03-20T14:30:00Z
+             */
+            updated_at?: string | null;
+        };
+        /** @description Represents payout split results for multi-party payments */
+        PaymentPayoutSplitResultDto: {
+            user_id: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description The gross amount before fees in smallest currency unit
+             * @example 10000
+             */
+            gross_amount: number;
+            /**
+             * Format: int32
+             * @description The tax amount in smallest currency unit
+             * @example 850
+             */
+            tax_amount: number;
+            /**
+             * Format: int32
+             * @description The gateway fee amount in smallest currency unit
+             * @example 320
+             */
+            gateway_fee_amount: number;
+            /**
+             * Format: int32
+             * @description The platform fee amount in smallest currency unit
+             * @example 500
+             */
+            platform_fee_amount: number;
+            /**
+             * Format: int32
+             * @description The connected platform fee amount in smallest currency unit
+             * @example 100
+             */
+            connected_platform_fee_amount: number;
+            /**
+             * Format: int32
+             * @description The net amount after all fees in smallest currency unit
+             * @example 8230
+             */
+            net_amount: number;
+            line_id: components["schemas"]["FlakeId"];
+        };
+        /** @description Represents payout split rules for a payment line */
+        PaymentPayoutSplitRuleDto: {
+            line_id: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description The total amount of the line item in smallest currency unit
+             * @example 10000
+             */
+            line_amount_total: number;
+            /**
+             * Format: int32
+             * @description The tax amount of the line item in smallest currency unit
+             * @example 850
+             */
+            line_amount_tax: number;
+            /** @description The list of splits defining how the payout should be divided */
+            splits: components["schemas"]["PaymentPayoutSplitRuleSplitDto"][];
+        };
+        /** @description Represents a single split configuration within a payout split rule */
+        PaymentPayoutSplitRuleSplitDto: {
+            user_id: components["schemas"]["FlakeId"];
+            /**
+             * Format: int32
+             * @description The percentage of the line amount this user receives (in basis points, e.g., 5000 = 50%)
+             * @example 5000
+             */
+            percentage?: number | null;
+            /**
+             * Format: int32
+             * @description The platform fee percentage applied to this split (in basis points)
+             * @example 500
+             */
+            platform_fee_percentage: number;
+        };
+        /**
+         * @description Represents payment status
+         * @enum {string}
+         */
+        PaymentStatusDto: "unknown" | "created" | "pending" | "completed" | "canceled" | "failed" | "refunded" | "chargeback" | "refund_failed" | "refund_processing";
         /**
          * Format: period
          * @description ISO 8601 duration format
          * @example P1Y2M3DT4H5M6S
          */
         Period: string;
+        /** @description Pix payment method details */
+        PixDetailsDto: {
+            /**
+             * @description The bank name
+             * @example Banco do Brasil
+             */
+            bank_name?: string | null;
+            /**
+             * @description The bank account number
+             * @example 12345-6
+             */
+            bank_account_number?: string | null;
+            /**
+             * @description The payer name
+             * @example João Silva
+             */
+            payer_name?: string | null;
+        };
         ProductCommandDto: {
             stage: components["schemas"]["ProductCommandStage"];
             /** @description Content of the command. */
@@ -3146,6 +3921,8 @@ export interface components {
              */
             time_value?: number | null;
             time_scale: components["schemas"]["ProductStockTimeScale"];
+            /** @description Indicates if trials should be included in the active stock limit calculation. */
+            include_trials: boolean;
         };
         /** @enum {string} */
         ProductStockTimeScale: "invalid" | "day" | "week" | "month" | "year";
@@ -3203,6 +3980,15 @@ export interface components {
             repeat_trial_cooldown_value: number;
             repeat_trial_cooldown_scale: components["schemas"]["ProductSubscriptionIntervalScale"];
         };
+        /** @description Represents a command associated with the store-level purchase follow uo configuration. */
+        PurchaseFollowUpStoreConfigurationCommandDto: {
+            id: components["schemas"]["FlakeId"];
+            store_id: components["schemas"]["FlakeId"];
+            /** @description The command to execute. */
+            command: string;
+            /** @description Indicates if the command should be executed if the player is online. */
+            online_only: boolean;
+        };
         /** @description Represents the store-level configuration for abandoned checkout settings. */
         PurchaseFollowUpStoreConfigurationDto: {
             store_id: components["schemas"]["FlakeId"];
@@ -3234,12 +4020,21 @@ export interface components {
             max_coupons_global_amount?: number | null;
             max_coupons_global_period?: components["schemas"]["Period"];
             coupon_configuration: components["schemas"]["MarketingCouponConfigurationDto"];
+            /** @description The commands you want to execute when the email is sent. */
+            commands: components["schemas"]["PurchaseFollowUpStoreConfigurationCommandDto"][];
             updated_by: components["schemas"]["ActorDto"];
             /**
              * Format: date-time
              * @description The date and time when the configuration was last updated.
              */
             updated_at: string;
+        };
+        /** @description Represents a command associated with the store-level purchase follow uo configuration. */
+        PurchaseFollowUpStoreConfigurationUpdateCommandDto: {
+            /** @description The command to execute. */
+            command: string;
+            /** @description Indicates if the command should be executed if the player is online. */
+            online_only: boolean;
         };
         /** @description Used for updating the store-level configuration for abandoned checkout settings. */
         PurchaseFollowUpStoreConfigurationUpdateDto: {
@@ -3268,6 +4063,7 @@ export interface components {
              */
             max_coupons_global_amount?: number | null;
             max_coupons_global_period?: components["schemas"]["Period"];
+            commands: components["schemas"]["PurchaseFollowUpStoreConfigurationUpdateCommandDto"][];
             coupon_configuration: components["schemas"]["MarketingCouponConfigurationDto"];
         };
         QueuedDiscordActionDto: {
@@ -3546,6 +4342,52 @@ export interface components {
             /** @description The URL to the user's Steam avatar image. */
             avatar_url: string;
         };
+        /** @description Steam Skins payment method details */
+        SteamSkinsDetailsDto: {
+            /** @description The list of Steam inventory items used for payment */
+            items: components["schemas"]["SteamSkinsInventoryItemDetailsDto"][];
+        };
+        SteamSkinsInventoryItemDetailsDto: {
+            /** @description The unique identifier of the Steam item */
+            id: string;
+            /**
+             * Format: int32
+             * @description The Steam app ID
+             * @example 730
+             */
+            app_id: number;
+            /**
+             * @description The name of the item
+             * @example AK-47 | Redline
+             */
+            name: string;
+            /**
+             * Format: int32
+             * @description The price of the item in the smallest currency unit
+             * @example 2500
+             */
+            price: number;
+        };
+        /** @description Store payment configuration settings. */
+        StorePaymentSettingsDto: {
+            /** @description Whether to show all available payment methods for subscription purchases. */
+            show_all_payment_methods_for_subscriptions: boolean;
+            /** @description Whether store pricing is tax-inclusive. */
+            store_tax_inclusive_pricing: boolean;
+            /**
+             * Format: int64
+             * @description Maximum checkout amount allowed in cents.
+             */
+            max_checkout_amount: number;
+            /** @description Whether to force 3D Secure authentication for all transactions. */
+            force_3d_secure: boolean;
+            chargeback_coverage: components["schemas"]["ChargebackCoverageTypeDto"];
+            /**
+             * Format: int64
+             * @description Maximum per-transaction chargeback coverage amount in cents.
+             */
+            chargeback_coverage_max_amount?: number | null;
+        };
         StorePricingRegionOverrideDto: {
             /** Format: int64 */
             default_price_multiplier?: number | null;
@@ -3573,6 +4415,7 @@ export interface components {
             store_id: components["schemas"]["FlakeId"];
             customer: components["schemas"]["CustomerDto"];
             payment_method_id?: components["schemas"]["FlakeId"];
+            payment_method?: components["schemas"]["PaymentMethodDto"];
             status: components["schemas"]["SubscriptionStatus"];
             coupon_id?: components["schemas"]["FlakeId"];
             /**
@@ -4005,6 +4848,10 @@ export interface components {
             /** Format: date-time */
             expires_at?: string;
         };
+        UpdateDeliveryItemProductVersionRequestDto: {
+            product_version_id: components["schemas"]["FlakeId"];
+            product_id: components["schemas"]["FlakeId"];
+        };
         UpdateGameServerDto: {
             name?: string;
             enabled?: boolean;
@@ -4019,14 +4866,6 @@ export interface components {
             usable_at?: string;
             /** Format: date-time */
             expires_at?: string;
-        };
-        UpdateInventoryItemProductVersionRequestDto: {
-            product_version_id: components["schemas"]["FlakeId"];
-            product_id: components["schemas"]["FlakeId"];
-        };
-        UpdateInventoryItemProductVersionResponseDto: {
-            /** Format: int32 */
-            updated_count: number;
         };
         UpdateNavLinkDto: {
             tag_id?: components["schemas"]["FlakeId"];
@@ -4057,6 +4896,10 @@ export interface components {
             begins_at?: string;
             /** Format: date-time */
             ends_at?: string;
+        };
+        UpdateStorePaymentSettingsDto: {
+            show_all_payment_methods_for_subscriptions?: boolean;
+            store_tax_inclusive_pricing?: boolean;
         };
         UpdateTrialEligibilityOverrideDto: {
             product_id?: components["schemas"]["FlakeId"];
@@ -4254,7 +5097,7 @@ export interface components {
             validation: string;
         };
         /** @enum {string} */
-        WebhookEventType: "on_ignore" | "on_order_completed" | "on_refund" | "on_chargeback" | "on_delivery_item_added" | "on_delivery_item_activated" | "on_delivery_item_used" | "on_delivery_item_revoked" | "on_subscription_activated" | "on_subscription_renewed" | "on_subscription_canceled" | "on_discord_order_actions_queued" | "on_connected_user_registered" | "on_connected_user_became_payable" | "on_connected_user_payout_created" | "on_connected_user_payout_completed" | "on_connected_user_transaction_inserted" | "on_connected_user_became_unpayable" | "on_trial_activated" | "on_trial_completed" | "on_trial_canceled";
+        WebhookEventType: "on_ignore" | "on_order_completed" | "on_refund" | "on_chargeback" | "on_delivery_item_added" | "on_delivery_item_activated" | "on_delivery_item_used" | "on_delivery_item_revoked" | "on_subscription_activated" | "on_subscription_renewed" | "on_subscription_canceled" | "on_discord_order_actions_queued" | "on_connected_user_registered" | "on_connected_user_became_payable" | "on_connected_user_payout_created" | "on_connected_user_payout_completed" | "on_connected_user_transaction_inserted" | "on_connected_user_became_unpayable" | "on_trial_activated" | "on_trial_completed" | "on_trial_canceled" | "on_purchase_follow_up_attempt_email_sent" | "on_purchase_follow_up_attempt_succeeded" | "on_abandoned_checkout_recovery_attempt_email_sent" | "on_abandoned_checkout_recovery_attempt_succeeded";
         WebhookHistoryDto: {
             /** Format: int32 */
             page: number;
@@ -4706,271 +5549,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CreateCheckoutSessionResponseDto"];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootOrdersCommandDelivery_GetOrderDeliveryItems: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The ID of the store. */
-                storeId: components["schemas"]["FlakeId"];
-                /** @description The ID of the order to retrieve delivery items from. */
-                orderId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DeliveryItemDto"][];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCustomersCommandDeliveryControllerBase_GetDeliveryItems: {
-        parameters: {
-            query?: {
-                /** @description The maximum number of items to return in a single request. */
-                limit?: number;
-                /**
-                 * @description Returns items after the specified ID.
-                 *     Used for forward pagination through results.
-                 * @example null
-                 */
-                after?: components["schemas"]["FlakeId"];
-                /**
-                 * @description Returns items before the specified ID.
-                 *     Used for backward pagination through results.
-                 * @example null
-                 */
-                before?: components["schemas"]["FlakeId"];
-                /** @description Determines the sort order of returned items.
-                 *     When true, items are returned in ascending order.
-                 *     When false, items are returned in descending order. */
-                asc?: boolean;
-            };
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-                customerId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DeliveryItemDto"][];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCustomersCommandDeliveryControllerBase_AssignDeliveryItem: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-                customerId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["DeliveryItemAssignmentDto"];
-                "text/json": components["schemas"]["DeliveryItemAssignmentDto"];
-                "application/*+json": components["schemas"]["DeliveryItemAssignmentDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DeliveryItemDto"][];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCustomersCommandDeliveryControllerBase_RevokeDeliveryItem: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-                customerId: components["schemas"]["FlakeId"];
-                deliveryItemId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCommandDelivery_AssignDeliveryItemsBulk: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
-                "text/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
-                "application/*+json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DeliveryItemDto"][];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCommandDelivery_UpdateInventoryItemProductVersion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
-                "text/json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
-                "application/*+json": components["schemas"]["UpdateInventoryItemProductVersionRequestDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UpdateInventoryItemProductVersionResponseDto"];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    RootCommandDelivery_UnqueueCommands: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                storeId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["UnqueueCommandsRequestDto"];
-                "text/json": components["schemas"]["UnqueueCommandsRequestDto"];
-                "application/*+json": components["schemas"]["UnqueueCommandsRequestDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnqueueCommandsResponseDto"];
                 };
             };
             /** @description Error response */
@@ -5773,13 +6351,557 @@ export interface operations {
             };
         };
     };
-    Deliverables_ResendCommandsForGameServer: {
+    OrdersDelivery_GetOrderDeliveryItems: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the order to retrieve delivery items from. */
+                orderId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyOrdersCommandDeliveryControllerWithDash_GetOrderDeliveryItems: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the order to retrieve delivery items from. */
+                orderId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Delivery_AssignDeliveryItemsBulk: {
         parameters: {
             query?: never;
             header?: never;
             path: {
                 storeId: components["schemas"]["FlakeId"];
-                deliverableId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "text/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Delivery_UnqueueDeliveryCommandAttemptByAttemptIDs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "text/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "application/*+json": components["schemas"]["UnqueueCommandsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnqueueCommandsResponseDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Delivery_UpdateDeliveryItemProductVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateDeliveryItemProductVersionRequestDto"];
+                "text/json": components["schemas"]["UpdateDeliveryItemProductVersionRequestDto"];
+                "application/*+json": components["schemas"]["UpdateDeliveryItemProductVersionRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateDeliveryItemProductVersionRequestDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyCommandDelivery_AssignDeliveryItemsBulk: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "text/json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentBulkDto"][];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyCommandDelivery_UnqueueDeliveryCommandAttemptByAttemptIDs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "text/json": components["schemas"]["UnqueueCommandsRequestDto"];
+                "application/*+json": components["schemas"]["UnqueueCommandsRequestDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnqueueCommandsResponseDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersDelivery_GetDeliveryItems: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersDelivery_AssignDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "text/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersDelivery_RevokeDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+                deliveryItemId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersDelivery_GetCommandAttempts: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommandAttemptDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyCustomersDeliveryControllerWithDash_GetDeliveryItems: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyCustomersDeliveryControllerWithDash_AssignDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "text/json": components["schemas"]["DeliveryItemAssignmentDto"];
+                "application/*+json": components["schemas"]["DeliveryItemAssignmentDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyCustomersDeliveryControllerWithDash_RevokeDeliveryItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                customerId: components["schemas"]["FlakeId"];
+                deliveryItemId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    GameServersDelivery_ResendDeliveryCommandsForGameServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                gameServerId: components["schemas"]["FlakeId"];
             };
             cookie?: never;
         };
@@ -7432,6 +8554,160 @@ export interface operations {
             };
         };
     };
+    Payments_GetPayments: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+                /** @description Filter by payment statuses */
+                status?: components["schemas"]["PaymentStatusDto"][];
+                /** @description Filter by order ID */
+                order_id?: components["schemas"]["FlakeId"];
+                /** @description Filter by customer ID */
+                customer_id?: components["schemas"]["FlakeId"];
+            };
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    Payments_GetPaymentById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+                paymentId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    PaymentsSettings_GetStorePaymentSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StorePaymentSettingsDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    PaymentsSettings_UpdateStorePaymentSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateStorePaymentSettingsDto"];
+                "text/json": components["schemas"]["UpdateStorePaymentSettingsDto"];
+                "application/*+json": components["schemas"]["UpdateStorePaymentSettingsDto"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
     Products_GetProducts: {
         parameters: {
             query?: never;
@@ -8371,133 +9647,6 @@ export interface operations {
             };
         };
     };
-    CustomersTrialEligibility_GetOverrides: {
-        parameters: {
-            query?: {
-                /** @description The maximum number of items to return in a single request. */
-                limit?: number;
-                /**
-                 * @description Returns items after the specified ID.
-                 *     Used for forward pagination through results.
-                 * @example null
-                 */
-                after?: components["schemas"]["FlakeId"];
-                /**
-                 * @description Returns items before the specified ID.
-                 *     Used for backward pagination through results.
-                 * @example null
-                 */
-                before?: components["schemas"]["FlakeId"];
-                /** @description Determines the sort order of returned items.
-                 *     When true, items are returned in ascending order.
-                 *     When false, items are returned in descending order. */
-                asc?: boolean;
-            };
-            header?: never;
-            path: {
-                /** @description The ID of the store to retrieve trial eligibility overrides for. */
-                storeId: components["schemas"]["FlakeId"];
-                /** @description The ID of the customer to retrieve trial eligibility overrides for. */
-                customerId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"][];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    CustomersTrialEligibility_CreateOverride: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The ID of the store to create the trial eligibility override for. */
-                storeId: components["schemas"]["FlakeId"];
-                /** @description The ID of the customer to create the trial eligibility override for. */
-                customerId: components["schemas"]["FlakeId"];
-            };
-            cookie?: never;
-        };
-        /** @description The trial eligibility override data. */
-        requestBody?: {
-            content: {
-                "application/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
-                "text/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
-                "application/*+json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"];
-                };
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
-    CustomersTrialEligibility_DeleteOverride: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The ID of the store to delete the trial eligibility override for. */
-                storeId: components["schemas"]["FlakeId"];
-                /** @description The ID of the trial eligibility override to delete. */
-                trialEligibilityOverrideId: components["schemas"]["FlakeId"];
-                customerId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Error response */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PayNowError"];
-                };
-            };
-        };
-    };
     Trials_GetTrials: {
         parameters: {
             query?: {
@@ -8578,6 +9727,133 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["TrialDto"];
                 };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_GetEligibilityOverridesForCustomer: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description The ID of the store to retrieve trial eligibility overrides for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the customer to retrieve trial eligibility overrides for. */
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_CreateEligibilityOverrideForCustomer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store to create the trial eligibility override for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the customer to create the trial eligibility override for. */
+                customerId: components["schemas"]["FlakeId"];
+            };
+            cookie?: never;
+        };
+        /** @description The trial eligibility override data. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+                "text/json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+                "application/*+json": components["schemas"]["CreateTrialEligibilityOverrideDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrialEligibilityOverrideDto"];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    CustomersTrialEligibility_DeleteEligibilityOverrideForCustomer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the store to delete the trial eligibility override for. */
+                storeId: components["schemas"]["FlakeId"];
+                /** @description The ID of the trial eligibility override to delete. */
+                trialEligibilityOverrideId: components["schemas"]["FlakeId"];
+                customerId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Error response */
             default: {
