@@ -124,6 +124,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/store/customer/delivery/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the customers delivery items
+         * @description Retrieves the current customers delivery items.
+         */
+        get: operations["StorefrontCustomerDelivery_GetStorefrontCustomerDeliveryItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/store/customer/command-delivery": {
         parameters: {
             query?: never;
@@ -131,8 +151,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get storefront customer delivery items */
-        get: operations["StorefrontCustomer_RootGetStorefrontCustomerDeliveryItems"];
+        /**
+         * Get the customers delivery items
+         * @deprecated
+         * @description **Deprecated:**
+         *
+         *     Retrieves the current customers delivery items.
+         */
+        get: operations["LegacyStorefrontCustomerCommandDelivery_GetStorefrontCustomerDeliveryItems"];
         put?: never;
         post?: never;
         delete?: never;
@@ -331,7 +357,7 @@ export interface components {
             /** @description Optional URL to redirect to if checkout is canceled */
             cancel_url?: string | null;
             /** @description Whether to automatically redirect the customer (return_url must be set) */
-            auto_redirect: boolean;
+            auto_redirect?: boolean | null;
             /** @description Optional metadata to associate with the checkout session.
              *     Do not store any sensitive information here. */
             metadata?: {
@@ -373,7 +399,7 @@ export interface components {
              * @description Whether this checkout creates a subscription.
              *     DEPRECATED: Use 'subscription' field in 'lines' array objects instead.
              */
-            subscription: boolean;
+            subscription?: boolean | null;
             coupon_id?: components["schemas"]["FlakeId"];
             /** @description Optional affiliate code to track referrals */
             affiliate_code?: string | null;
@@ -382,7 +408,7 @@ export interface components {
             /** @description Optional URL to redirect to if checkout is canceled */
             cancel_url?: string | null;
             /** @description Whether to automatically redirect the customer (return_url must be set) */
-            auto_redirect: boolean;
+            auto_redirect?: boolean | null;
             /** @description Optional metadata to associate with the checkout session.
              *     Do not store any sensitive information here. */
             metadata?: {
@@ -979,6 +1005,8 @@ export interface components {
              * @example support@example.com
              */
             support_email?: string | null;
+            /** @description The URL of the store's support page. */
+            support_url?: string | null;
             /** @description The type of integration this store uses with external systems. */
             integration_type?: string | null;
             /** @description Indicates whether the store is in live mode (true) or test mode (false). */
@@ -1352,7 +1380,55 @@ export interface operations {
             };
         };
     };
-    StorefrontCustomer_RootGetStorefrontCustomerDeliveryItems: {
+    StorefrontCustomerDelivery_GetStorefrontCustomerDeliveryItems: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of items to return in a single request. */
+                limit?: number;
+                /**
+                 * @description Returns items after the specified ID.
+                 *     Used for forward pagination through results.
+                 * @example null
+                 */
+                after?: components["schemas"]["FlakeId"];
+                /**
+                 * @description Returns items before the specified ID.
+                 *     Used for backward pagination through results.
+                 * @example null
+                 */
+                before?: components["schemas"]["FlakeId"];
+                /** @description Determines the sort order of returned items.
+                 *     When true, items are returned in ascending order.
+                 *     When false, items are returned in descending order. */
+                asc?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StorefrontDeliveryItemDto"][];
+                };
+            };
+            /** @description Error response */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PayNowError"];
+                };
+            };
+        };
+    };
+    LegacyStorefrontCustomerCommandDelivery_GetStorefrontCustomerDeliveryItems: {
         parameters: {
             query?: {
                 /** @description The maximum number of items to return in a single request. */
