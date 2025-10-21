@@ -1,5 +1,12 @@
 # PayLater
 
+> [!IMPORTANT]  
+> **DEPRECATION NOTICE**  
+> This package is **no longer maintained**.  
+> PayNow now provides an **official TypeScript SDK**, which replaces the need for this library.  
+>  
+> 👉 Migrate to the official SDK here: [https://github.com/paynow-gg/typescript-sdk](https://github.com/paynow-gg/typescript-sdk)
+
 > A modern, lightweight and _mostly_-typed API client for [PayNow.gg](https://paynow.gg).
 
 - [PayLater](#paylater)
